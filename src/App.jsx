@@ -1,13 +1,16 @@
 import { motion } from "framer-motion";
+import React, { useState } from "react";
 import {
   ArrowDown,
   ArrowUpRight,
   MapPin,
+  Menu,
   MessageCircle,
   Phone,
   Radio,
   Users,
   Waves,
+  X,
   ShipWheel
 } from "lucide-react";
 
@@ -17,13 +20,19 @@ const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
 
 function App() {
+  const [menuOpen, setMenuOpen] = useState(false);
+
   return (
     <div className="site-shell">
 
       <header className="navbar">
+
         <a className="brand" href="#home">
-          <span className="brand-mark">C</span>
-          <span>CRP</span>
+          <img
+            src="/crp-logo.png"
+            alt="CRP"
+            className="brand-logo"
+          />
         </a>
 
         <nav className="nav-links">
@@ -38,8 +47,54 @@ function App() {
           target="_blank"
           rel="noreferrer"
         >
-          WhatsApp <ArrowUpRight size={16} />
+          WhatsApp
+          <ArrowUpRight size={16} />
         </a>
+
+        <button
+          className="menu-toggle"
+          onClick={() => setMenuOpen(!menuOpen)}
+          aria-label="Toggle menu"
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {menuOpen && (
+          <div className="mobile-menu">
+
+            <a
+              href="#about"
+              onClick={() => setMenuOpen(false)}
+            >
+              About
+            </a>
+
+            <a
+              href="#growth"
+              onClick={() => setMenuOpen(false)}
+            >
+              GROWTH
+            </a>
+
+            <a
+              href="#contact"
+              onClick={() => setMenuOpen(false)}
+            >
+              Contact
+            </a>
+
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noreferrer"
+              onClick={() => setMenuOpen(false)}
+            >
+              WhatsApp
+            </a>
+
+          </div>
+        )}
+
       </header>
 
 
@@ -95,7 +150,10 @@ function App() {
               transition={{ duration: 0.7, delay: 0.3 }}
             >
 
-              <a className="button button-primary" href="#growth">
+              <a
+                className="button button-primary"
+                href="#growth"
+              >
                 Explore GROWTH
                 <ArrowDown size={17} />
               </a>
@@ -149,7 +207,10 @@ function App() {
 
         {/* ABOUT */}
 
-        <section className="intro section" id="about">
+        <section
+          className="intro section"
+          id="about"
+        >
 
           <div className="section-kicker">
             01 / THE CRP NETWORK
@@ -208,7 +269,10 @@ function App() {
 
         {/* GROWTH */}
 
-        <section className="growth section" id="growth">
+        <section
+          className="growth section"
+          id="growth"
+        >
 
           <div className="growth-card">
 
@@ -283,7 +347,10 @@ function App() {
 
         {/* CONTACT */}
 
-        <section className="contact section" id="contact">
+        <section
+          className="contact section"
+          id="contact"
+        >
 
           <div className="section-kicker">
             03 / CONTACT CRP
@@ -362,7 +429,10 @@ function App() {
 
       </main>
 
-            <a
+
+      {/* FLOATING WHATSAPP */}
+
+      <a
         className="floating-whatsapp"
         href={whatsappLink}
         target="_blank"
@@ -372,6 +442,9 @@ function App() {
         <MessageCircle size={22} />
         <span>Chat with CRP</span>
       </a>
+
+
+      {/* FOOTER */}
 
       <footer>
 
