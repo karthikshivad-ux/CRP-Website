@@ -18,6 +18,8 @@ import "./App.css";
 
 const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
+const mapsLink =
+  "https://www.google.com/maps/search/?api=1&query=Puthiyappa%2C%20Kozhikode%2C%20Kerala";
 
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -511,15 +513,29 @@ function App() {
               </div>
 
 
-              <a
-                className="contact-button"
-                href={whatsappLink}
-                target="_blank"
-                rel="noreferrer"
-              >
-                Start a conversation
-                <ArrowUpRight size={18} />
-              </a>
+              <div className="contact-actions">
+
+                <a
+                  className="contact-button"
+                  href={mapsLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  Open in Google Maps
+                  <ArrowUpRight size={18} />
+                </a>
+
+                <a
+                  className="contact-button contact-button-secondary"
+                  href={whatsappLink}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  WhatsApp CRP
+                  <MessageCircle size={18} />
+                </a>
+
+              </div>
 
             </motion.div>
 
