@@ -120,7 +120,6 @@ function App() {
               WHOLESALE FISH NETWORK · KOZHIKODE
             </motion.div>
 
-
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
@@ -131,7 +130,6 @@ function App() {
               <em>fish trade.</em>
             </motion.h1>
 
-
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -141,7 +139,6 @@ function App() {
               relationships, harbour networks and reliable market
               information across India.
             </motion.p>
-
 
             <motion.div
               className="hero-actions"
@@ -320,6 +317,54 @@ function App() {
 
             </div>
 
+
+            {/* GROWTH NETWORK */}
+
+            <div className="growth-network">
+
+              <div className="network-node">
+                <div className="network-icon">
+                  <Waves size={20} />
+                </div>
+
+                <span>HARBOURS</span>
+                <small>Across India</small>
+              </div>
+
+
+              <div className="network-line">
+                <span></span>
+              </div>
+
+
+              <div className="network-node active">
+                <div className="network-icon">
+                  <Radio size={20} />
+                </div>
+
+                <span>LIVE UPDATES</span>
+                <small>Real-time information</small>
+              </div>
+
+
+              <div className="network-line">
+                <span></span>
+              </div>
+
+
+              <div className="network-node">
+                <div className="network-icon">
+                  <Users size={20} />
+                </div>
+
+                <span>BUYERS</span>
+                <small>Trade network</small>
+              </div>
+
+            </div>
+
+
+            {/* MEMBERSHIP */}
 
             <div className="coming-soon">
 
