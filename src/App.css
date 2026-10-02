@@ -1282,3 +1282,45 @@ footer a:hover {
     display: none;
   }
 }
+/* SCROLL REVEAL */
+
+.reveal-section {
+  will-change: transform, opacity;
+}
+
+/* INTERACTION POLISH */
+
+.stat {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.stat:hover {
+  background: rgba(255, 255, 255, 0.018);
+  border-color: rgba(126, 220, 234, 0.16);
+}
+
+.network-node {
+  cursor: default;
+}
+
+.contact-card {
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.contact-card:hover {
+  border-color: rgba(126, 220, 234, 0.18);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-section {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}

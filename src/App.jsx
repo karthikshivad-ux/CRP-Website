@@ -22,6 +22,21 @@ const whatsappLink = `https://wa.me/91${phone}`;
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const reveal = {
+    hidden: {
+      opacity: 0,
+      y: 35
+    },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.7,
+        ease: "easeOut"
+      }
+    }
+  };
+
   return (
     <div className="site-shell">
 
@@ -204,9 +219,13 @@ function App() {
 
         {/* ABOUT */}
 
-        <section
-          className="intro section"
+        <motion.section
+          className="intro section reveal-section"
           id="about"
+          variants={reveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.15 }}
         >
 
           <div className="section-kicker">
@@ -241,34 +260,50 @@ function App() {
 
           <div className="stats-row">
 
-            <div className="stat">
+            <motion.div
+              className="stat"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.25 }}
+            >
               <Waves />
               <strong>01</strong>
               <span>Harbour-first approach</span>
-            </div>
+            </motion.div>
 
-            <div className="stat">
+            <motion.div
+              className="stat"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.25 }}
+            >
               <Users />
               <strong>∞</strong>
               <span>People & trade connections</span>
-            </div>
+            </motion.div>
 
-            <div className="stat">
+            <motion.div
+              className="stat"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.25 }}
+            >
               <Radio />
               <strong>LIVE</strong>
               <span>Market information</span>
-            </div>
+            </motion.div>
 
           </div>
 
-        </section>
+        </motion.section>
 
 
         {/* GROWTH */}
 
-        <section
-          className="growth section"
+        <motion.section
+          className="growth section reveal-section"
           id="growth"
+          variants={reveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.1 }}
         >
 
           <div className="growth-card">
@@ -322,14 +357,18 @@ function App() {
 
             <div className="growth-network">
 
-              <div className="network-node">
+              <motion.div
+                className="network-node"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+              >
                 <div className="network-icon">
                   <Waves size={20} />
                 </div>
 
                 <span>HARBOURS</span>
                 <small>Across India</small>
-              </div>
+              </motion.div>
 
 
               <div className="network-line">
@@ -337,14 +376,18 @@ function App() {
               </div>
 
 
-              <div className="network-node active">
+              <motion.div
+                className="network-node active"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+              >
                 <div className="network-icon">
                   <Radio size={20} />
                 </div>
 
                 <span>LIVE UPDATES</span>
                 <small>Real-time information</small>
-              </div>
+              </motion.div>
 
 
               <div className="network-line">
@@ -352,14 +395,18 @@ function App() {
               </div>
 
 
-              <div className="network-node">
+              <motion.div
+                className="network-node"
+                whileHover={{ y: -6 }}
+                transition={{ duration: 0.25 }}
+              >
                 <div className="network-icon">
                   <Users size={20} />
                 </div>
 
                 <span>BUYERS</span>
                 <small>Trade network</small>
-              </div>
+              </motion.div>
 
             </div>
 
@@ -387,14 +434,18 @@ function App() {
 
           </div>
 
-        </section>
+        </motion.section>
 
 
         {/* CONTACT */}
 
-        <section
-          className="contact section"
+        <motion.section
+          className="contact section reveal-section"
           id="contact"
+          variants={reveal}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, amount: 0.12 }}
         >
 
           <div className="section-kicker">
@@ -420,7 +471,11 @@ function App() {
             </div>
 
 
-            <div className="contact-card">
+            <motion.div
+              className="contact-card"
+              whileHover={{ y: -5 }}
+              transition={{ duration: 0.25 }}
+            >
 
               <div className="contact-row">
 
@@ -466,11 +521,11 @@ function App() {
                 <ArrowUpRight size={18} />
               </a>
 
-            </div>
+            </motion.div>
 
           </div>
 
-        </section>
+        </motion.section>
 
       </main>
 
