@@ -109,3 +109,466 @@ code {
   padding: 4px 8px;
   background: var(--code-bg);
 }
+/* GROWTH JOIN BUTTON */
+
+.growth-join-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-top: 28px;
+  padding: 13px 20px;
+  border: 1px solid rgba(126, 220, 234, 0.25);
+  border-radius: 999px;
+  background: rgba(126, 220, 234, 0.08);
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition:
+    transform 0.25s ease,
+    background 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.growth-join-button:hover {
+  transform: translateY(-2px);
+  background: rgba(126, 220, 234, 0.14);
+  border-color: rgba(126, 220, 234, 0.4);
+}
+
+
+/* MEMBERSHIP PAGE */
+
+.membership-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      circle at 75% 15%,
+      rgba(72, 180, 200, 0.09),
+      transparent 30%
+    ),
+    #06131f;
+  color: #ffffff;
+}
+
+.membership-glow {
+  position: fixed;
+  width: 420px;
+  height: 420px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(100px);
+  opacity: 0.18;
+}
+
+.membership-glow-one {
+  top: -180px;
+  right: -120px;
+  background: #317d91;
+}
+
+.membership-glow-two {
+  bottom: -220px;
+  left: -180px;
+  background: #123c52;
+}
+
+.membership-header {
+  position: relative;
+  z-index: 5;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 24px 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.membership-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.65);
+  text-decoration: none;
+  font-size: 0.85rem;
+  transition: color 0.2s ease;
+}
+
+.membership-back:hover {
+  color: #ffffff;
+}
+
+.membership-main {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 70px 0 100px;
+}
+
+.membership-intro {
+  max-width: 700px;
+  margin-bottom: 55px;
+}
+
+.membership-intro h1 {
+  margin: 24px 0 18px;
+  font-size: clamp(3rem, 7vw, 5.8rem);
+  line-height: 0.95;
+  letter-spacing: -0.055em;
+}
+
+.membership-intro h1 em {
+  color: #7edcea;
+  font-style: normal;
+}
+
+.membership-intro p {
+  max-width: 600px;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 1.05rem;
+  line-height: 1.75;
+}
+
+.membership-layout {
+  display: grid;
+  grid-template-columns: 0.8fr 1.2fr;
+  gap: 28px;
+  align-items: start;
+}
+
+.membership-info,
+.membership-form {
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.025);
+  backdrop-filter: blur(18px);
+}
+
+.membership-info {
+  padding: 30px;
+}
+
+.membership-price {
+  padding-bottom: 28px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.membership-price > span,
+.form-heading > span {
+  display: block;
+  color: #7edcea;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.membership-price > div {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.membership-price strong {
+  font-size: 3.5rem;
+  letter-spacing: -0.05em;
+}
+
+.membership-price small {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.9rem;
+}
+
+.membership-benefits {
+  display: grid;
+  gap: 18px;
+  padding: 28px 0;
+}
+
+.membership-benefits div {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.membership-benefits svg {
+  flex: 0 0 auto;
+  margin-top: 2px;
+  color: #7edcea;
+}
+
+.membership-note {
+  display: flex;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(126, 220, 234, 0.12);
+  border-radius: 14px;
+  background: rgba(126, 220, 234, 0.045);
+  color: rgba(255, 255, 255, 0.58);
+  font-size: 0.78rem;
+  line-height: 1.55;
+}
+
+.membership-note svg {
+  flex: 0 0 auto;
+  color: #7edcea;
+}
+
+.membership-form {
+  padding: 34px;
+}
+
+.form-heading {
+  margin-bottom: 30px;
+}
+
+.form-heading h2 {
+  margin: 9px 0 0;
+  font-size: 1.8rem;
+  letter-spacing: -0.03em;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.membership-form label {
+  display: block;
+}
+
+.membership-form label > span:first-child {
+  display: block;
+  margin-bottom: 8px;
+  color: rgba(255, 255, 255, 0.48);
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.membership-form input[type="text"],
+.membership-form input[type="tel"] {
+  width: 100%;
+  box-sizing: border-box;
+  height: 50px;
+  padding: 0 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  outline: none;
+  background: rgba(255, 255, 255, 0.035);
+  color: #ffffff;
+  font: inherit;
+  font-size: 0.88rem;
+  transition:
+    border-color 0.2s ease,
+    background 0.2s ease;
+}
+
+.membership-form input:focus {
+  border-color: rgba(126, 220, 234, 0.5);
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.membership-form input::placeholder {
+  color: rgba(255, 255, 255, 0.25);
+}
+
+.form-field-full {
+  margin-top: 18px;
+}
+
+.phone-input {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.035);
+  overflow: hidden;
+}
+
+.phone-input:focus-within {
+  border-color: rgba(126, 220, 234, 0.5);
+}
+
+.phone-input > span {
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding: 0 13px;
+  border-right: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.82rem;
+}
+
+.phone-input input {
+  border: none !important;
+  background: transparent !important;
+  border-radius: 0 !important;
+  height: 48px !important;
+}
+
+.same-number {
+  display: flex !important;
+  align-items: center;
+  gap: 10px;
+  margin-top: 17px;
+  cursor: pointer;
+}
+
+.same-number input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.custom-checkbox {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 5px;
+  background: rgba(255, 255, 255, 0.035);
+  color: #06131f;
+}
+
+.same-number input:checked + .custom-checkbox {
+  border-color: #7edcea;
+  background: #7edcea;
+}
+
+.same-number > span:last-child {
+  color: rgba(255, 255, 255, 0.52);
+  font-size: 0.78rem;
+}
+
+.form-message {
+  margin-top: 18px;
+  padding: 13px 15px;
+  border: 1px solid rgba(126, 220, 234, 0.18);
+  border-radius: 10px;
+  background: rgba(126, 220, 234, 0.05);
+  color: #9be8f2;
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.membership-submit {
+  width: 100%;
+  margin-top: 24px;
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  border: none;
+  border-radius: 12px;
+  background: #7edcea;
+  color: #06131f;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    filter 0.2s ease;
+}
+
+.membership-submit:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.secure-note {
+  margin: 13px 0 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.68rem;
+  line-height: 1.5;
+}
+
+
+/* MEMBERSHIP MOBILE */
+
+@media (max-width: 850px) {
+  .membership-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .membership-info {
+    order: 2;
+  }
+
+  .membership-form {
+    order: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .membership-header,
+  .membership-main {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .membership-header {
+    padding: 18px 0;
+  }
+
+  .membership-main {
+    padding: 45px 0 70px;
+  }
+
+  .membership-intro {
+    margin-bottom: 35px;
+  }
+
+  .membership-intro h1 {
+    font-size: clamp(2.8rem, 14vw, 4.2rem);
+  }
+
+  .membership-intro p {
+    font-size: 0.92rem;
+  }
+
+  .membership-info,
+  .membership-form {
+    padding: 22px;
+    border-radius: 18px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .membership-price strong {
+    font-size: 3rem;
+  }
+}
+/* FIX GROWTH JOIN BUTTON CLICK */
+
+.growth-card {
+  position: relative;
+}
+
+.growth-map-lines {
+  pointer-events: none;
+}
+
+.growth-join-button {
+  position: relative;
+  z-index: 10;
+  pointer-events: auto;
+}
