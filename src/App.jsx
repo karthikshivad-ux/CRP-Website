@@ -1394,6 +1394,10 @@ function App() {
 
                   </a>
 
+                  <strong>SHYAM PRASAD</strong>
+
+                  <small>OWNER</small>
+
                 </div>
 
               </div>

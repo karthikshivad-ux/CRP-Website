@@ -1454,3 +1454,10 @@ footer a:hover {
     margin-left: 95px;
   }
 }
+.contact-row small {
+  color: rgba(255, 255, 255, 0.38);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
