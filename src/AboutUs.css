@@ -1,0 +1,1049 @@
+/* FULL-BLEED ABOUT PAGE */
+
+html,
+body,
+#root {
+  width: 100%;
+  max-width: none;
+  min-width: 320px;
+  margin: 0;
+  padding: 0;
+}
+
+.about-page {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 6%, rgba(72, 180, 200, 0.11), transparent 27%),
+    radial-gradient(circle at 15% 52%, rgba(28, 100, 125, 0.07), transparent 28%),
+    #06131f;
+}
+
+.about-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.018) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.018) 1px, transparent 1px);
+  background-size: 90px 90px;
+  mask-image: linear-gradient(to bottom, black 0%, transparent 78%);
+}
+
+.about-hero {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+  background:
+    radial-gradient(circle at 82% 48%, rgba(73, 190, 211, 0.09), transparent 25%),
+    linear-gradient(180deg, rgba(8, 30, 43, 0.35), rgba(6, 19, 31, 0.04));
+}
+
+.about-hero-inner {
+  min-height: 650px;
+  padding-top: 115px;
+  padding-bottom: 120px;
+}
+
+.about-hero h1 {
+  max-width: 1000px;
+  font-size: clamp(4.5rem, 9vw, 8.8rem) !important;
+}
+
+.about-commitment,
+.about-operations,
+.about-supply,
+.about-difference,
+.about-quality {
+  position: relative;
+}
+
+.about-operations {
+  padding-top: 85px;
+}
+
+.about-operation-grid {
+  grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+  gap: 14px;
+}
+
+.about-operation-card {
+  min-height: 390px;
+  padding: 27px;
+}
+
+.about-operation-top {
+  margin-bottom: 70px;
+}
+
+.about-operation-card h3 {
+  min-height: 52px;
+}
+
+.about-supply-card {
+  grid-template-columns: minmax(360px, 0.85fr) minmax(0, 1.15fr) !important;
+  padding: 55px;
+  background:
+    radial-gradient(circle at 88% 50%, rgba(126,220,234,0.12), transparent 30%),
+    linear-gradient(135deg, rgba(13, 47, 63, 0.8), rgba(6, 19, 31, 0.96));
+}
+
+.about-supply-flow {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 8px;
+}
+
+
+
+.about-supply-flow > div span {
+  line-height: 1.35;
+}
+
+.about-flow-arrow {
+  padding: 0 2px;
+  text-align: center;
+}
+
+.about-india-card {
+  min-height: 500px;
+  padding: 62px;
+}
+
+@media (max-width: 1150px) {
+  .about-operation-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .about-supply-card {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-supply-flow {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .about-flow-arrow {
+    display: none;
+  }
+}
+
+@media (max-width: 850px) {
+  .about-operation-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-supply-flow {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-hero-inner {
+    min-height: auto;
+    padding-top: 80px;
+    padding-bottom: 82px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(3.3rem, 15vw, 5.1rem) !important;
+  }
+
+  .about-supply-card {
+    padding: 25px;
+  }
+
+  .about-supply-flow {
+    grid-template-columns: 1fr;
+  }
+
+  .about-india-card {
+    padding: 27px;
+  }
+}
+
+/* ABOUT US PAGE */
+
+.about-page {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 85% 8%, rgba(72, 180, 200, 0.08), transparent 30%),
+    #06131f;
+  color: #fff;
+}
+
+.about-page *,
+.about-page *::before,
+.about-page *::after {
+  box-sizing: border-box;
+}
+
+.about-page main {
+  display: block;
+  width: 100%;
+}
+
+.about-page section {
+  text-align: left;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3,
+.about-page p {
+  max-width: none;
+}
+
+.about-page h1,
+.about-page h2,
+.about-page h3 {
+  font-family: inherit;
+}
+
+.about-page p {
+  text-align: left;
+}
+
+.about-page-glow {
+  position: fixed;
+  width: 440px;
+  height: 440px;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(120px);
+  opacity: 0.14;
+}
+
+.about-page-glow-one {
+  top: -220px;
+  right: -160px;
+  background: #317d91;
+}
+
+.about-page-glow-two {
+  bottom: -240px;
+  left: -180px;
+  background: #123c52;
+}
+
+.about-page-header {
+  position: relative;
+  z-index: 10;
+  width: min(1180px, calc(100% - 40px));
+  min-height: 82px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.about-page-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.58);
+  text-decoration: none;
+  font-size: 0.82rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.about-page-back:hover {
+  color: #fff;
+  transform: translateX(-2px);
+}
+
+.about-hero {
+  position: relative;
+  z-index: 2;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.about-hero-inner {
+  width: min(1180px, calc(100% - 40px));
+  min-height: 590px;
+  margin: 0 auto;
+  padding: 100px 0 105px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.about-hero h1 {
+  width: min(900px, 100%);
+  margin: 26px 0 30px;
+  font-size: clamp(4rem, 8vw, 7.8rem) !important;
+  line-height: 0.92 !important;
+  letter-spacing: -0.065em !important;
+  font-weight: 700;
+  text-align: left;
+}
+
+.about-hero h1 em {
+  display: inline-block;
+  color: #7edcea;
+  font-style: normal;
+  white-space: nowrap;
+}
+
+.about-hero p {
+  width: min(720px, 100%);
+  margin: 0;
+  color: rgba(255, 255, 255, 0.64);
+  font-size: 1.03rem;
+  line-height: 1.85;
+}
+
+.about-section-kicker {
+  color: #7edcea;
+  font-size: 0.66rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.about-section-kicker.light {
+  color: rgba(255, 255, 255, 0.56);
+}
+
+.about-commitment,
+.about-operations,
+.about-supply,
+.about-difference,
+.about-quality {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 105px 0;
+}
+
+.about-commitment-grid,
+.about-difference-grid {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr) !important;
+  gap: 90px;
+  align-items: start;
+  margin-top: 38px;
+}
+
+.about-commitment h2,
+.about-difference h2 {
+  margin: 0;
+  font-size: clamp(2.8rem, 5vw, 5rem);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 700;
+  text-align: left;
+}
+
+.about-commitment h2 span {
+  display: block;
+  color: #7edcea;
+}
+
+.about-commitment p,
+.about-difference p,
+.about-quality p {
+  margin: 0 0 20px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.94rem;
+  line-height: 1.9;
+}
+
+.about-commitment .about-lead,
+.about-difference .about-lead {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 1.03rem;
+}
+
+.about-commitment strong,
+.about-operation-card strong,
+.about-india-card strong {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.about-operations {
+  padding-top: 30px;
+}
+
+.about-operation-grid {
+  display: grid !important;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.about-operation-card {
+  min-height: 330px;
+  padding: 30px;
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 22px;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.045), rgba(255, 255, 255, 0.018));
+  transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+}
+
+.about-operation-card:hover {
+  border-color: rgba(126, 220, 234, 0.25);
+  background:
+    linear-gradient(145deg, rgba(126, 220, 234, 0.055), rgba(255, 255, 255, 0.018));
+}
+
+.about-operation-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 55px;
+}
+
+.about-operation-top > span {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.about-operation-top > div {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(126, 220, 234, 0.18);
+  border-radius: 12px;
+  background: rgba(126, 220, 234, 0.055);
+  color: #7edcea;
+}
+
+.about-operation-card h3 {
+  margin: 0 0 15px;
+  font-size: 1.42rem;
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-align: left;
+}
+
+.about-operation-card p {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.57);
+  font-size: 0.86rem;
+  line-height: 1.82;
+  text-align: left;
+}
+
+.about-supply {
+  padding-top: 30px;
+}
+
+.about-supply-card {
+  display: grid !important;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(0, 1.1fr) !important;
+  gap: 55px;
+  margin-top: 38px;
+  padding: 48px;
+  border: 1px solid rgba(126, 220, 234, 0.13);
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 85% 15%, rgba(72, 180, 200, 0.09), transparent 35%),
+    rgba(255, 255, 255, 0.025);
+}
+
+.about-supply-card h2 {
+  margin: 24px 0 20px;
+  font-size: clamp(2.4rem, 4.5vw, 4.2rem);
+  line-height: 0.98;
+  letter-spacing: -0.05em;
+  text-align: left;
+}
+
+.about-supply-card h2 em,
+.about-difference h2 em,
+.about-india-card h2 em,
+.about-quality h2 em {
+  color: #7edcea;
+  font-style: normal;
+}
+
+.about-supply-card p {
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.57);
+  font-size: 0.9rem;
+  line-height: 1.8;
+  text-align: left;
+}
+
+.about-supply-flow {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+}
+
+.about-supply-flow > div {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 58px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.025);
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.about-supply-flow svg {
+  color: #7edcea;
+  flex: 0 0 auto;
+}
+
+.about-flow-arrow {
+  display: block;
+  padding-left: 25px;
+  color: rgba(126, 220, 234, 0.5);
+  font-size: 1rem;
+}
+
+.about-difference {
+  padding-top: 80px;
+}
+
+.about-quote {
+  margin-top: 30px !important;
+  padding: 20px 0 0 20px;
+  border-left: 2px solid #7edcea;
+  color: rgba(255, 255, 255, 0.86) !important;
+  font-weight: 600;
+}
+
+.about-india {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 30px 0 105px;
+}
+
+.about-india-card {
+  position: relative;
+  min-height: 450px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 50px;
+  padding: 52px;
+  overflow: hidden;
+  border-radius: 26px;
+  background:
+    radial-gradient(circle at 78% 45%, rgba(126, 220, 234, 0.12), transparent 30%),
+    linear-gradient(135deg, rgba(17, 58, 78, 0.9), rgba(6, 19, 31, 0.98));
+}
+
+.about-india-card::before,
+.about-india-card::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid rgba(126, 220, 234, 0.1);
+  border-radius: 50%;
+}
+
+.about-india-card::before {
+  width: 560px;
+  height: 560px;
+  right: -150px;
+  top: -120px;
+}
+
+.about-india-card::after {
+  width: 360px;
+  height: 360px;
+  right: -50px;
+  top: -20px;
+}
+
+.about-india-copy {
+  position: relative;
+  z-index: 2;
+  max-width: 700px;
+}
+
+.about-india-card h2 {
+  margin: 22px 0 18px;
+  font-size: clamp(2.7rem, 5vw, 5rem);
+  line-height: 0.96;
+  letter-spacing: -0.055em;
+  text-align: left;
+}
+
+.about-india-card p {
+  max-width: 650px;
+  margin: 0 0 16px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 0.92rem;
+  line-height: 1.78;
+  text-align: left;
+}
+
+.about-india-mark {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #7edcea;
+}
+
+.about-india-mark span {
+  display: flex;
+  flex-direction: column;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+
+.about-india-mark small {
+  margin-top: 5px;
+  color: rgba(255, 255, 255, 0.36);
+  font-size: 0.58rem;
+  letter-spacing: 0.1em;
+}
+
+.about-quality {
+  padding-top: 70px;
+  padding-bottom: 120px;
+}
+
+.about-quality-inner {
+  max-width: 880px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-quality-inner .about-section-kicker,
+.about-quality-inner h2,
+.about-quality-inner p,
+.about-quality-inner .about-final-line {
+  text-align: center;
+}
+
+.about-quality h2 {
+  margin: 25px 0;
+  font-size: clamp(2.8rem, 5.5vw, 5.5rem);
+  line-height: 0.96;
+  letter-spacing: -0.06em;
+}
+
+.about-quality p {
+  max-width: 740px;
+  margin: 0 auto 20px;
+}
+
+.about-final-line {
+  margin-top: 45px;
+  padding-top: 26px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: #7edcea;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.6;
+  text-transform: uppercase;
+}
+
+.about-page-footer {
+  position: relative;
+  z-index: 2;
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 26px 0 35px;
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  color: rgba(255, 255, 255, 0.34);
+  font-size: 0.7rem;
+}
+
+.about-page-footer a {
+  color: rgba(255, 255, 255, 0.52);
+  text-decoration: none;
+}
+
+.about-page-footer a:hover {
+  color: #fff;
+}
+
+@media (max-width: 850px) {
+  .about-commitment-grid,
+  .about-difference-grid,
+  .about-supply-card {
+    grid-template-columns: 1fr !important;
+    gap: 35px;
+  }
+
+  .about-operation-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .about-operation-card {
+    min-height: auto;
+  }
+
+  .about-india-card {
+    align-items: flex-start;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .about-india-mark {
+    margin-top: 30px;
+  }
+}
+
+@media (max-width: 600px) {
+  .about-page-header,
+  .about-hero-inner,
+  .about-commitment,
+  .about-operations,
+  .about-supply,
+  .about-difference,
+  .about-india,
+  .about-quality,
+  .about-page-footer {
+    width: min(100% - 28px, 1180px);
+  }
+
+  .about-page-header {
+    min-height: 70px;
+  }
+
+  .about-hero-inner {
+    min-height: auto;
+    padding: 70px 0 78px;
+  }
+
+  .about-hero h1 {
+    font-size: clamp(3.25rem, 15vw, 5rem) !important;
+    line-height: 0.94 !important;
+  }
+
+  .about-hero h1 em {
+    white-space: normal;
+  }
+
+  .about-hero p {
+    font-size: 0.92rem;
+  }
+
+  .about-commitment,
+  .about-operations,
+  .about-supply,
+  .about-difference,
+  .about-quality {
+    padding-top: 75px;
+    padding-bottom: 75px;
+  }
+
+  .about-commitment-grid,
+  .about-difference-grid {
+    margin-top: 28px;
+    gap: 28px;
+  }
+
+  .about-commitment h2,
+  .about-difference h2 {
+    font-size: 2.8rem;
+  }
+
+  .about-operation-card,
+  .about-supply-card,
+  .about-india-card {
+    padding: 24px;
+    border-radius: 19px;
+  }
+
+  .about-operation-top {
+    margin-bottom: 35px;
+  }
+
+  .about-supply-card h2,
+  .about-india-card h2,
+  .about-quality h2 {
+    font-size: 2.65rem;
+  }
+
+  .about-supply-flow > div {
+    min-height: 54px;
+  }
+
+  .about-india {
+    padding-bottom: 75px;
+  }
+
+  .about-page-footer {
+    flex-direction: column;
+    padding-bottom: 28px;
+  }
+}
+
+
+/* FINAL FULL-WIDTH OVERRIDES */
+html, body, #root { width: 100%; max-width: none; margin: 0; padding: 0; }
+.about-page { width: 100%; max-width: none; margin: 0; }
+.about-page main { width: 100%; max-width: none; }
+.about-hero, .about-commitment, .about-operations, .about-supply, .about-difference, .about-india, .about-quality { max-width: none; }
+.about-operation-grid { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+.about-supply-flow { display: grid; grid-template-columns: minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr) auto minmax(0,1fr); }
+@media (max-width: 1150px) { .about-operation-grid { grid-template-columns: repeat(2, minmax(0,1fr)) !important; } .about-supply-flow { grid-template-columns: repeat(5, minmax(0,1fr)); } .about-flow-arrow { display:none; } }
+@media (max-width: 850px) { .about-operation-grid { grid-template-columns: 1fr !important; } .about-supply-flow { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 600px) { .about-supply-flow { grid-template-columns: 1fr; } }
+
+/* =========================================================
+   OUR OPERATIONS — FULL WIDTH HORIZONTAL BLOCKS
+   ========================================================= */
+
+.about-operation-grid {
+  display: flex !important;
+  flex-direction: column !important;
+  grid-template-columns: none !important;
+
+  width: 100% !important;
+  max-width: none !important;
+
+  margin-top: 70px;
+  gap: 0 !important;
+}
+
+
+/* EACH OPERATION */
+
+.about-operation-card {
+  display: grid !important;
+
+  grid-template-columns: 110px minmax(280px, 0.8fr) minmax(0, 1.5fr) !important;
+
+  width: 100% !important;
+  max-width: none !important;
+
+  min-width: 0;
+
+  align-items: start;
+
+  column-gap: 45px;
+
+  padding: 40px 0 !important;
+  margin: 0 !important;
+
+  border: none !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 0 !important;
+
+  background: transparent !important;
+
+  box-sizing: border-box;
+}
+
+.about-operation-card:last-child {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+
+/* NUMBER + ICON */
+
+.about-operation-top {
+  display: flex !important;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.about-operation-top span {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+
+  color: rgba(255, 255, 255, 0.42);
+}
+
+.about-operation-top svg {
+  width: 22px;
+  height: 22px;
+
+  color: rgba(140, 229, 241, 0.8);
+
+  stroke-width: 1.4;
+}
+
+
+/* TITLE */
+
+.about-operation-card h3 {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  max-width: 100%;
+
+  font-size: clamp(22px, 2vw, 30px);
+  line-height: 1.2;
+
+  font-weight: 500;
+  letter-spacing: -0.02em;
+
+  color: #ffffff;
+}
+
+
+/* DESCRIPTION */
+
+.about-operation-card p {
+  margin: 0 !important;
+  padding: 0 !important;
+
+  width: 100%;
+  max-width: 760px;
+
+  font-size: 16px;
+  line-height: 1.8;
+
+  color: rgba(255, 255, 255, 0.58);
+}
+
+
+/* HOVER */
+
+.about-operation-card {
+  transition:
+    padding-left 0.3s ease,
+    background 0.3s ease;
+}
+
+.about-operation-card:hover {
+  padding-left: 14px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(140, 229, 241, 0.035),
+      transparent 70%
+    ) !important;
+}
+
+.about-operation-card:hover h3 {
+  color: #8ce5f1;
+}
+
+.about-operation-card:hover .about-operation-top span {
+  color: rgba(140, 229, 241, 0.75);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+
+  .about-operation-card {
+    grid-template-columns:
+      80px
+      minmax(220px, 0.8fr)
+      minmax(0, 1.4fr) !important;
+
+    column-gap: 30px;
+
+    padding: 32px 0 !important;
+  }
+
+  .about-operation-card h3 {
+    font-size: 22px;
+  }
+
+  .about-operation-card p {
+    font-size: 15px;
+    line-height: 1.75;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+
+  .about-operation-grid {
+    margin-top: 45px;
+  }
+
+  .about-operation-card {
+    display: grid !important;
+
+    grid-template-columns: 55px minmax(0, 1fr) !important;
+
+    column-gap: 20px;
+
+    padding: 30px 0 !important;
+  }
+
+  .about-operation-top {
+    grid-column: 1 !important;
+    grid-row: 1 / span 2 !important;
+
+    display: flex !important;
+    flex-direction: column;
+
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    gap: 18px;
+  }
+
+  .about-operation-top span {
+    font-size: 12px;
+  }
+
+  .about-operation-top svg {
+    width: 19px;
+    height: 19px;
+  }
+
+  .about-operation-card h3 {
+    grid-column: 2 !important;
+    grid-row: 1 !important;
+
+    font-size: 20px;
+    line-height: 1.25;
+  }
+
+  .about-operation-card p {
+    grid-column: 2 !important;
+    grid-row: 2 !important;
+
+    margin-top: 14px !important;
+
+    font-size: 14px;
+    line-height: 1.75;
+  }
+
+  .about-operation-card:hover {
+    padding-left: 0 !important;
+    background: transparent !important;
+  }
+
+}

@@ -17,6 +17,7 @@ import {
 } from "lucide-react";
 
 import "./App.css";
+import "./AboutUs.css";
 
 const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
@@ -434,12 +435,295 @@ function GrowthMembership() {
 }
 
 
+function AboutUs() {
+  const sections = [
+    {
+      number: "01",
+      icon: <ShipWheel size={21} />,
+      title: "Direct From Our Own Vessels",
+      text: (
+        <>
+          A significant portion of the fish we source comes directly from <strong>our own fishing vessels</strong>. This gives us greater control over the sourcing process and helps us maintain consistency in the quality of the catch.
+          <br /><br />
+          Being directly involved at the sourcing stage allows us to handle the fish with greater care from the beginning, rather than relying entirely on multiple intermediaries. This direct connection to the source forms an important part of our commitment to quality.
+          <br /><br />
+          Our experience in the seafood industry, combined with our own vessels, enables us to build a reliable supply of fresh fish for our customers across different markets in India.
+        </>
+      )
+    },
+    {
+      number: "02",
+      icon: <Waves size={21} />,
+      title: "Our Own Ice-Making Facilities",
+      text: (
+        <>
+          Maintaining the freshness of fish requires an effective and uninterrupted cold chain. To support this, <strong>we operate our own ice factories</strong>, producing the ice used to preserve and pack our fish for transportation.
+          <br /><br />
+          Having our own ice-production facilities gives us greater control over an essential part of the preservation process. The ice is used during packing and transportation to help maintain the required temperature and protect the freshness of the fish while it travels to different destinations.
+          <br /><br />
+          This integrated approach reduces our dependence on external suppliers and allows us to better coordinate the handling and transportation process.
+        </>
+      )
+    },
+    {
+      number: "03",
+      icon: <Check size={21} />,
+      title: "Hygienic Packing",
+      text: (
+        <>
+          Proper handling and packing are essential when dealing with fresh seafood. At CRP, our fish is packed with a strong emphasis on <strong>hygiene, cleanliness, and proper handling</strong>.
+          <br /><br />
+          The fish is carefully prepared and packed with ice to help preserve its freshness during transportation. We follow a controlled packing process designed to minimize unnecessary handling and maintain the condition of the product from the time it is prepared until it reaches its destination.
+          <br /><br />
+          Our focus on hygienic packing is an important part of maintaining the quality standards that our customers expect from us.
+        </>
+      )
+    },
+    {
+      number: "04",
+      icon: <ArrowUpRight size={21} />,
+      title: "Our Own Insulated Transportation",
+      text: (
+        <>
+          Once the fish has been packed, maintaining the cold chain during transportation becomes equally important. To support this, <strong>we use our own insulated trucks</strong> for transporting fish across India.
+          <br /><br />
+          Our insulated vehicles help protect the fish from external temperature conditions during transit and support the preservation of freshness throughout the journey.
+          <br /><br />
+          Because the transportation is managed using our own fleet, we have greater control over the movement of our products and can coordinate transportation more efficiently according to the requirements of each shipment.
+        </>
+      )
+    }
+  ];
+
+  return (
+    <div className="about-page">
+      <div className="about-page-glow about-page-glow-one"></div>
+      <div className="about-page-glow about-page-glow-two"></div>
+
+      <header className="about-page-header">
+        <a className="brand" href="/">
+          <img src="/crp-logo.png" alt="CRP" className="brand-logo" />
+        </a>
+
+        <a className="about-page-back" href="/">
+          <ArrowLeft size={17} />
+          Back to CRP
+        </a>
+      </header>
+
+      <main>
+        <section className="about-hero">
+          <div className="about-hero-inner">
+            <div className="growth-badge">
+              <Waves size={15} />
+              ABOUT CRP
+            </div>
+
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7 }}
+            >
+              From source to
+              <br />
+              <em>destination.</em>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 18 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.15 }}
+            >
+              At CRP, we are committed to delivering high-quality fresh fish with consistency, care, and reliability. Our approach is built around maintaining control over as much of the process as possible — from sourcing the catch to packing and transporting it to destinations across India.
+            </motion.p>
+          </div>
+        </section>
+
+        <section className="about-commitment">
+          <div className="about-section-kicker">01 / OUR COMMITMENT</div>
+
+          <div className="about-commitment-grid">
+            <h2>
+              Quality is built into
+              <span>the journey.</span>
+            </h2>
+
+            <div>
+              <p className="about-lead">
+                By combining our own fishing vessels, ice-manufacturing facilities, hygienic packing practices, and insulated transportation, we are able to create a more controlled supply chain with minimal dependence on third parties.
+              </p>
+              <p>
+                This allows us to focus on what matters most: <strong>preserving the freshness, quality, and condition of the fish throughout its journey.</strong>
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-operations">
+          <div className="about-section-kicker">02 / OUR OPERATIONS</div>
+
+          <div className="about-operation-grid">
+            {sections.map((section) => (
+              <motion.article
+                className="about-operation-card"
+                key={section.number}
+                whileHover={{ y: -5 }}
+                transition={{ duration: 0.25 }}
+              >
+                <div className="about-operation-top">
+                  <span>{section.number}</span>
+                  <div>{section.icon}</div>
+                </div>
+                <h3>{section.title}</h3>
+                <p>{section.text}</p>
+              </motion.article>
+            ))}
+          </div>
+        </section>
+
+        <section className="about-supply">
+          <div className="about-section-kicker">03 / AN INTEGRATED SUPPLY CHAIN</div>
+
+          <div className="about-supply-card">
+            <div>
+              <div className="growth-badge">
+                <Radio size={15} />
+                CONTROLLED SUPPLY CHAIN
+              </div>
+              <h2>
+                Our process brings
+                <br />
+                <em>every stage together.</em>
+              </h2>
+              <p>
+                One of our greatest strengths is the level of integration across our operations.
+              </p>
+              <p>
+                By managing multiple stages of the supply chain ourselves, we are able to reduce unnecessary third-party involvement and maintain greater control over the handling of our products.
+              </p>
+              <p>
+                This integrated model helps us minimize interruptions, reduce unnecessary handling, and maintain better consistency throughout the journey of the fish.
+              </p>
+            </div>
+
+            <div className="about-supply-flow">
+              <div><ShipWheel size={20} /><span>Our Fishing Vessels</span></div>
+              <span className="about-flow-arrow">→</span>
+              <div><Waves size={20} /><span>Our Ice Factories</span></div>
+              <span className="about-flow-arrow">→</span>
+              <div><Check size={20} /><span>Hygienic Packing</span></div>
+              <span className="about-flow-arrow">→</span>
+              <div><ArrowUpRight size={20} /><span>Our Insulated Trucks</span></div>
+              <span className="about-flow-arrow">→</span>
+              <div><Users size={20} /><span>Customers Across India</span></div>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-difference">
+          <div className="about-section-kicker">04 / WHY OUR APPROACH MATTERS</div>
+
+          <div className="about-difference-grid">
+            <div>
+              <h2>
+                Fewer handovers.
+                <br />
+                <em>Greater control.</em>
+              </h2>
+            </div>
+
+            <div>
+              <p className="about-lead">
+                Fresh fish requires careful handling at every stage. Quality can be affected by delays, excessive handling, inadequate cooling, or interruptions in transportation.
+              </p>
+              <p>
+                Our vertically integrated approach is designed to address these challenges.
+              </p>
+              <p>
+                With our own vessels, ice-production facilities, packing operations, and insulated transportation, we are able to maintain a greater degree of control over the journey of our products.
+              </p>
+              <p className="about-quote">
+                Fewer unnecessary handovers mean greater control. Greater control helps us protect quality.
+              </p>
+              <p>
+                This is what makes our approach different.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-india">
+          <div className="about-india-card">
+            <div className="about-india-copy">
+              <div className="about-section-kicker light">05 / SERVING MARKETS ACROSS INDIA</div>
+              <h2>
+                Connecting the source
+                <br />
+                with markets across <em>India.</em>
+              </h2>
+              <p>
+                Our operations are designed to support the transportation of fresh fish to customers and markets <strong>across India</strong>.
+              </p>
+              <p>
+                Whether the destination is nearby or requires long-distance transportation, our focus remains the same: ensuring that the fish is properly handled, adequately chilled, hygienically packed, and transported under controlled conditions.
+              </p>
+              <p>
+                Our infrastructure allows us to connect the source with markets across the country while maintaining our commitment to quality throughout the process.
+              </p>
+            </div>
+
+            <div className="about-india-mark">
+              <MapPin size={27} />
+              <span>
+                PUTHIYAPPA
+                <small>KOZHIKODE · KERALA</small>
+              </span>
+            </div>
+          </div>
+        </section>
+
+        <section className="about-quality">
+          <div className="about-quality-inner">
+            <div className="about-section-kicker">06 / BUILT AROUND QUALITY</div>
+            <h2>
+              Quality isn't a final step.
+              <br />
+              <em>It's built into every stage.</em>
+            </h2>
+            <p>
+              At CRP, quality is not something we focus on only at the final stage. It is built into every step of our operation.
+            </p>
+            <p>
+              From the moment the fish is sourced from our vessels, through ice production and hygienic packing, to transportation in our insulated trucks, every stage plays a role in protecting the freshness and quality of our products.
+            </p>
+            <p>
+              Our integrated operations give us the ability to take greater responsibility for the entire process — and that is the foundation on which CRP continues to grow.
+            </p>
+            <div className="about-final-line">
+              CRP — From Source to Destination, With Quality in Our Control.
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="about-page-footer">
+        <span>© {new Date().getFullYear()} CRP</span>
+        <span>Wholesale Fish · Puthiyappa · Kozhikode</span>
+        <a href="/">Back to CRP ↑</a>
+      </footer>
+    </div>
+  );
+}
+
 function App() {
 
   const [menuOpen, setMenuOpen] = useState(false);
 
   const [membershipPage, setMembershipPage] = useState(
     window.location.pathname === "/join-growth"
+  );
+  const [aboutPage, setAboutPage] = useState(
+    window.location.pathname === "/about-us"
   );
 
 
@@ -448,6 +732,9 @@ function App() {
     const handlePopState = () => {
       setMembershipPage(
         window.location.pathname === "/join-growth"
+      );
+      setAboutPage(
+        window.location.pathname === "/about-us"
       );
     };
 
@@ -466,6 +753,16 @@ function App() {
   }, []);
 
 
+  const openAbout = (event) => {
+    event.preventDefault();
+
+    window.history.pushState({}, "", "/about-us");
+    setMembershipPage(false);
+    setAboutPage(true);
+    setMenuOpen(false);
+    window.scrollTo(0, 0);
+  };
+
   const openMembership = (event) => {
 
     event.preventDefault();
@@ -477,6 +774,7 @@ function App() {
     );
 
     setMembershipPage(true);
+    setAboutPage(false);
 
     window.scrollTo(0, 0);
   };
@@ -484,6 +782,10 @@ function App() {
 
   if (membershipPage) {
     return <GrowthMembership />;
+  }
+
+  if (aboutPage) {
+    return <AboutUs />;
   }
 
 
@@ -527,8 +829,8 @@ function App() {
 
         <nav className="nav-links">
 
-          <a href="#about">
-            About
+          <a href="/about-us" onClick={openAbout}>
+            About Us
           </a>
 
           <a href="#growth">
@@ -575,12 +877,10 @@ function App() {
           <div className="mobile-menu">
 
             <a
-              href="#about"
-              onClick={() =>
-                setMenuOpen(false)
-              }
+              href="/about-us"
+              onClick={openAbout}
             >
-              About
+              About Us
             </a>
 
             <a
@@ -791,137 +1091,6 @@ function App() {
           </div>
 
         </section>
-
-
-        {/* ABOUT */}
-
-        <motion.section
-          className="intro section reveal-section"
-          id="about"
-          variants={reveal}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{
-            once: true,
-            amount: 0.15
-          }}
-        >
-
-          <div className="section-kicker">
-            01 / THE CRP NETWORK
-          </div>
-
-
-          <div className="intro-grid">
-
-            <h2>
-
-              Built around the
-
-              <span>
-                harbour.
-              </span>
-
-            </h2>
-
-
-            <div>
-
-              <p className="lead">
-
-                CRP connects wholesale fish trade with the
-                people and information that keep the market moving.
-
-              </p>
-
-
-              <p>
-
-                From Puthiyappa, Kozhikode, we work through a
-                network of buyers, sellers and harbour contacts.
-                The focus is simple: strong connections, timely
-                information and direct communication.
-
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <div className="stats-row">
-
-            <motion.div
-              className="stat"
-              whileHover={{
-                y: -5
-              }}
-              transition={{
-                duration: 0.25
-              }}
-            >
-
-              <Waves />
-
-              <strong>
-                01
-              </strong>
-
-              <span>
-                Harbour-first approach
-              </span>
-
-            </motion.div>
-
-
-            <motion.div
-              className="stat"
-              whileHover={{
-                y: -5
-              }}
-              transition={{
-                duration: 0.25
-              }}
-            >
-
-              <Users />
-
-              <strong>
-                ∞
-              </strong>
-
-              <span>
-                People & trade connections
-              </span>
-
-            </motion.div>
-
-
-            <motion.div
-              className="stat"
-              whileHover={{
-                y: -5
-              }}
-              transition={{
-                duration: 0.25
-              }}
-            >
-
-              <Radio />
-
-              <strong>
-                LIVE
-              </strong>
-
-              <span>
-                Market information
-              </span>
-
-            </motion.div>
-
-          </div>
-
-        </motion.section>
 
 
         {/* GROWTH */}
