@@ -1461,3 +1461,115 @@ footer a:hover {
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
+
+/* GROWTH NO REFUND POLICY — TYPOGRAPHY FIX */
+
+.refund-policy {
+  margin-top: 20px;
+  padding: 16px;
+  font-family: "DM Sans", sans-serif;
+  text-align: left;
+  border: 1px solid rgba(126, 220, 234, 0.16);
+  border-radius: 12px;
+  background: rgba(126, 220, 234, 0.035);
+}
+
+.refund-policy h3 {
+  margin: 0 0 8px;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  font-weight: 700;
+  text-align: left;
+  color: #91e5ef;
+}
+
+.refund-policy > p {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+  font-weight: 400;
+  text-align: left;
+  color: rgba(231, 241, 243, 0.65);
+}
+
+.refund-policy details {
+  margin-top: 10px;
+}
+
+.refund-policy summary {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 600;
+  color: #91e5ef;
+  cursor: pointer;
+}
+
+.refund-policy-details {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.refund-policy-details p {
+  margin: 0;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.7;
+  font-weight: 400;
+  color: rgba(231, 241, 243, 0.65);
+}
+
+.refund-policy-details strong {
+  font-weight: 600;
+  color: rgba(244, 247, 248, 0.9);
+}
+
+.refund-policy .refund-policy-accept {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  margin-top: 14px;
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 500;
+  text-align: left;
+  cursor: pointer;
+}
+
+.refund-policy-accept input {
+  flex: 0 0 15px;
+  width: 15px;
+  height: 15px;
+  margin: 2px 0 0;
+  accent-color: #91e5ef;
+  cursor: pointer;
+}
+
+.refund-policy .refund-policy-accept span {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.6;
+  font-weight: 500;
+  color: rgba(244, 247, 248, 0.8);
+}
+
+@media (max-width: 600px) {
+  .refund-policy {
+    padding: 14px;
+  }
+
+  .refund-policy h3 {
+    font-size: 14px;
+  }
+
+  .refund-policy > p,
+  .refund-policy-details p,
+  .refund-policy summary,
+  .refund-policy .refund-policy-accept span {
+    font-size: 12px;
+  }
+}
