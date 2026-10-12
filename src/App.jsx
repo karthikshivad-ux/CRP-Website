@@ -217,7 +217,7 @@ function GrowthMembership() {
             onSubmit={handleSubmit}
           >
             <div className="form-heading">
-              <span>01 / YOUR DETAILS</span>
+              <span>YOUR DETAILS</span>
               <h2>
                 Tell us about yourself.
               </h2>
@@ -383,7 +383,7 @@ function GrowthMembership() {
                 borderRadius: "16px"
               }}
             >
-              <h2>02 / COMPLETE PAYMENT</h2>
+              <h2>COMPLETE PAYMENT</h2>
               <p>
                 GROWTH Membership — <strong>₹300</strong> for one month
               </p>
@@ -1038,7 +1038,7 @@ function App() {
           <div className="growth-card">
             <div className="growth-map-lines"></div>
             <div className="section-kicker light">
-              02 / GROWTH
+              GROWTH
             </div>
             <div className="growth-copy">
               <div>
@@ -1173,7 +1173,7 @@ function App() {
           }}
         >
           <div className="section-kicker">
-            03 / CONTACT CRP
+            CONTACT CRP
           </div>
           <div className="contact-grid">
             <div>
