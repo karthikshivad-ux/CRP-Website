@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { QRCodeSVG } from "qrcode.react";
 import React, { useEffect, useState } from "react";
 import {
   ArrowDown,
@@ -15,19 +16,15 @@ import {
   X,
   ShipWheel
 } from "lucide-react";
-
 import "./App.css";
 import "./AboutUs.css";
-
 const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
 const mapsLink =
   "https://www.google.com/maps/search/?api=1&query=Puthiyappa%2C%20Kozhikode%2C%20Kerala";
-
 function GrowthMembership() {
   const [sameAsPhone, setSameAsPhone] = useState(false);
   const [policyAccepted, setPolicyAccepted] = useState(false);
-
   const [formData, setFormData] = useState({
     name: "",
     businessName: "",
@@ -35,17 +32,16 @@ function GrowthMembership() {
     phone: "",
     whatsapp: ""
   });
-
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
+  const [showPayment, setShowPayment] = useState(false);
+  const [paymentReference, setPaymentReference] = useState("");
   const handleChange = (field, value) => {
     setFormData((current) => ({
       ...current,
       [field]: value
     }));
-
     if (field === "phone" && sameAsPhone) {
       setFormData((current) => ({
         ...current,
@@ -53,53 +49,43 @@ function GrowthMembership() {
         whatsapp: value
       }));
     }
-
     setError("");
   };
-
   const handleSameNumber = (checked) => {
     setSameAsPhone(checked);
-
     setFormData((current) => ({
       ...current,
       whatsapp: checked ? current.phone : ""
     }));
-
     setError("");
   };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     setError("");
     setMessage("");
     if (!policyAccepted) {
       setError("Please read and accept the No Refund Policy to continue.");
       return;
     }
-
     if (!formData.name.trim()) {
       setError("Please enter your full name.");
       return;
     }
-
     if (!formData.place.trim()) {
       setError("Please enter your place.");
       return;
     }
-
     if (!/^\d{10}$/.test(formData.phone)) {
       setError("Please enter a valid 10-digit phone number.");
       return;
     }
-
     if (!/^\d{10}$/.test(formData.whatsapp)) {
       setError("Please enter a valid 10-digit WhatsApp number.");
       return;
     }
-
     setSubmitting(true);
-
+    const newPaymentReference =
+      `CRPG-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     try {
       const response = await fetch("/api/growth/register", {
         method: "POST",
@@ -111,20 +97,21 @@ function GrowthMembership() {
           businessName: formData.businessName,
           place: formData.place,
           phone: formData.phone,
-          whatsapp: formData.whatsapp
+          whatsapp: formData.whatsapp,
+          membershipAmount: 300,
+          paymentReference: newPaymentReference
         })
       });
-
       const result = await response.json().catch(() => ({}));
-
       if (!response.ok || !result.success) {
         throw new Error(
           result.message || "Unable to register your membership details."
         );
       }
-
+      setPaymentReference(newPaymentReference);
+      setShowPayment(true);
       setMessage(
-        "Your details have been registered successfully. CRP will contact you regarding membership activation."
+        "Your details have been registered successfully. Complete the UPI payment below. Membership will be activated after payment verification."
       );
     } catch (error) {
       setError(error.message || "Something went wrong. Please try again.");
@@ -132,15 +119,11 @@ function GrowthMembership() {
       setSubmitting(false);
     }
   };
-
   return (
     <div className="membership-page">
-
       <div className="membership-glow membership-glow-one"></div>
       <div className="membership-glow membership-glow-two"></div>
-
       <header className="membership-header">
-
         <a className="brand" href="/">
           <img
             src="/crp-logo.png"
@@ -148,125 +131,85 @@ function GrowthMembership() {
             className="brand-logo"
           />
         </a>
-
         <a className="membership-back" href="/">
           <ArrowLeft size={17} />
           Back to CRP
         </a>
-
       </header>
-
-
       <main className="membership-main">
-
         <motion.div
           className="membership-intro"
           initial={{ opacity: 0, y: 25 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7 }}
         >
-
           <div className="growth-badge">
             <Radio size={15} />
             GROWTH · MEMBERSHIP
           </div>
-
           <h1>
             Join the
             <br />
             <em>trade network.</em>
           </h1>
-
           <p>
             Get access to CRP's dedicated WhatsApp trade network
             for timely harbour and market information.
           </p>
-
         </motion.div>
-
-
         <motion.div
           className="membership-layout"
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
-
           <div className="membership-info">
-
             <div className="membership-price">
-
               <span>GROWTH MEMBERSHIP</span>
-
               <div>
                 <strong>₹300</strong>
                 <small>/ month</small>
               </div>
-
             </div>
-
-
             <div className="membership-benefits">
-
               <div>
                 <Check size={17} />
                 <span>Access to the GROWTH trade network</span>
               </div>
-
               <div>
                 <Check size={17} />
                 <span>Harbour-level availability information</span>
               </div>
-
               <div>
                 <Check size={17} />
                 <span>Direct WhatsApp trade communication</span>
               </div>
-
               <div>
                 <Check size={17} />
                 <span>Membership valid for one month</span>
               </div>
-
             </div>
-
-
             <div className="membership-note">
-
               <ShipWheel size={19} />
-
               <span>
                 After successful payment, you will be added
                 to the GROWTH WhatsApp group within 24 hours.
               </span>
-
             </div>
-
           </div>
-
-
           <form
             className="membership-form"
             onSubmit={handleSubmit}
           >
-
             <div className="form-heading">
-
-              <span>01 / YOUR DETAILS</span>
-
+              <span>YOUR DETAILS</span>
               <h2>
                 Tell us about yourself.
               </h2>
-
             </div>
-
-
             <div className="form-grid">
-
               <label>
-
                 <span>FULL NAME</span>
-
                 <input
                   type="text"
                   value={formData.name}
@@ -279,14 +222,9 @@ function GrowthMembership() {
                   placeholder="Enter your name"
                   required
                 />
-
               </label>
-
-
               <label>
-
                 <span>BUSINESS NAME</span>
-
                 <input
                   type="text"
                   value={formData.businessName}
@@ -298,14 +236,9 @@ function GrowthMembership() {
                   }
                   placeholder="Enter business name (optional)"
                 />
-
               </label>
-
-
               <label>
-
                 <span>PLACE</span>
-
                 <input
                   type="text"
                   value={formData.place}
@@ -318,18 +251,11 @@ function GrowthMembership() {
                   placeholder="City / Location"
                   required
                 />
-
               </label>
-
-
               <label>
-
                 <span>PHONE NUMBER</span>
-
                 <div className="phone-input">
-
                   <span>+91</span>
-
                   <input
                     type="tel"
                     inputMode="numeric"
@@ -344,22 +270,13 @@ function GrowthMembership() {
                     placeholder="10-digit number"
                     required
                   />
-
                 </div>
-
               </label>
-
             </div>
-
-
             <label className="form-field-full">
-
               <span>WHATSAPP NUMBER</span>
-
               <div className="phone-input">
-
                 <span>+91</span>
-
                 <input
                   type="tel"
                   inputMode="numeric"
@@ -374,14 +291,9 @@ function GrowthMembership() {
                   placeholder="10-digit WhatsApp number"
                   required
                 />
-
               </div>
-
             </label>
-
-
             <label className="same-number">
-
               <input
                 type="checkbox"
                 checked={sameAsPhone}
@@ -391,17 +303,13 @@ function GrowthMembership() {
                   )
                 }
               />
-
               <span className="custom-checkbox">
                 {sameAsPhone && <Check size={13} />}
               </span>
-
               <span>
                 WhatsApp number is the same as phone number
               </span>
-
             </label>
-            
             <div className="refund-policy">
               <h3>No Refund Policy</h3>
               <p>
@@ -411,7 +319,6 @@ function GrowthMembership() {
                 membership days are non-refundable. Access may
                 occasionally be affected by service interruptions.
               </p>
-
               <label className="refund-policy-accept">
                 <input
                   type="checkbox"
@@ -426,20 +333,16 @@ function GrowthMembership() {
                 </span>
               </label>
             </div>
-
-
             {error && (
               <div className="form-message">
                 {error}
               </div>
             )}
-
             {message && (
               <div className="form-message">
                 {message}
               </div>
             )}
-
             <button
               type="submit"
               className="membership-submit"
@@ -448,24 +351,135 @@ function GrowthMembership() {
               {submitting ? "Registering..." : "Continue to Payment"}
               {!submitting && <ArrowUpRight size={18} />}
             </button>
-
-
             <p className="secure-note">
               Your details will be securely stored for membership
               registration and payment processing.
             </p>
-
           </form>
-
-        </motion.div>
-
+          {showPayment && (
+            <section
+              className="upi-checkout"
+              style={{
+                marginTop: "24px",
+                padding: "24px",
+                border: "1px solid rgba(128, 128, 128, 0.3)",
+                borderRadius: "16px"
+              }}
+            >
+              <h2>COMPLETE PAYMENT</h2>
+              <p>
+                GROWTH Membership — <strong>₹300</strong> for one month
+              </p>
+              <p>
+                Payment reference: <strong>{paymentReference}</strong>
+              </p>
+              {(() => {
+                const upiParams = new URLSearchParams({
+                  pa: "karthikshivad@oksbi",
+                  pn: "CRP",
+                  am: "300.00",
+                  cu: "INR",
+                  tn: `GROWTH Membership ${paymentReference}`,
+                  tr: paymentReference
+                });
+                const upiUrl = `upi://pay?${upiParams.toString()}`;
+                const isAndroid = /Android/i.test(navigator.userAgent);
+                const paymentApps = [
+                  {
+                    name: "Google Pay",
+                    packageName: "com.google.android.apps.nbu.paisa.user"
+                  },
+                  {
+                    name: "PhonePe",
+                    packageName: "com.phonepe.app"
+                  },
+                  {
+                    name: "Paytm",
+                    packageName: "net.one97.paytm"
+                  },
+                  {
+                    name: "BHIM",
+                    packageName: "in.org.npci.upiapp"
+                  }
+                ];
+                return (
+                  <>
+                    <h3>Choose your UPI app</h3>
+                    <div
+                      style={{
+                        display: "grid",
+                        gridTemplateColumns: "repeat(auto-fit, minmax(140px, 1fr))",
+                        gap: "10px",
+                        margin: "16px 0"
+                      }}
+                    >
+                      {paymentApps.map((app) => (
+                        <a
+                          key={app.name}
+                          href={
+                            isAndroid
+                              ? `intent://pay?${upiParams.toString()}#Intent;scheme=upi;package=${app.packageName};end`
+                              : upiUrl
+                          }
+                          className="upi-app-button"
+                          style={{
+                            display: "block",
+                            padding: "14px",
+                            border: "1px solid rgba(128, 128, 128, 0.4)",
+                            borderRadius: "10px",
+                            color: "inherit",
+                            textDecoration: "none",
+                            textAlign: "center"
+                          }}
+                        >
+                          Pay with {app.name} ↗
+                        </a>
+                      ))}
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        gap: "12px",
+                        margin: "24px 0",
+                        textAlign: "center"
+                      }}
+                    >
+                      <p>Using a computer? Scan this QR code with your phone.</p>
+                      <QRCodeSVG value={upiUrl} size={220} includeMargin />
+                    </div>
+                    <p>
+                      UPI ID: <strong>karthikshivad@oksbi</strong>
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        if (navigator.clipboard?.writeText) {
+                          navigator.clipboard.writeText("karthikshivad@oksbi");
+                          setMessage("UPI ID copied. Complete payment in your UPI app.");
+                        } else {
+                          setMessage("UPI ID: karthikshivad@oksbi");
+                        }
+                      }}
+                    >
+                      Copy UPI ID
+                    </button>
+                    <p style={{ fontSize: "0.9rem", lineHeight: 1.6, opacity: 0.8 }}>
+                      Complete the payment in your UPI app. CRP must verify the
+                      transaction in the bank account before activating your
+                      membership. This page cannot automatically confirm payment.
+                    </p>
+                  </>
+                );
+              })()}
+            </section>
+          )}
+</motion.div>
       </main>
-
     </div>
   );
 }
-
-
 function AboutUs() {
   const sections = [
     {
@@ -525,23 +539,19 @@ function AboutUs() {
       )
     }
   ];
-
   return (
     <div className="about-page">
       <div className="about-page-glow about-page-glow-one"></div>
       <div className="about-page-glow about-page-glow-two"></div>
-
       <header className="about-page-header">
         <a className="brand" href="/">
           <img src="/crp-logo.png" alt="CRP" className="brand-logo" />
         </a>
-
         <a className="about-page-back" href="/">
           <ArrowLeft size={17} />
           Back to CRP
         </a>
       </header>
-
       <main>
         <section className="about-hero">
           <div className="about-hero-inner">
@@ -549,7 +559,6 @@ function AboutUs() {
               <Waves size={15} />
               ABOUT CRP
             </div>
-
             <motion.h1
               initial={{ opacity: 0, y: 25 }}
               animate={{ opacity: 1, y: 0 }}
@@ -559,7 +568,6 @@ function AboutUs() {
               <br />
               <em>destination.</em>
             </motion.h1>
-
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
@@ -569,16 +577,13 @@ function AboutUs() {
             </motion.p>
           </div>
         </section>
-
         <section className="about-commitment">
           <div className="about-section-kicker">01 / OUR COMMITMENT</div>
-
           <div className="about-commitment-grid">
             <h2>
               Quality is built into
               <span>the journey.</span>
             </h2>
-
             <div>
               <p className="about-lead">
                 By combining our own fishing vessels, ice-manufacturing facilities, hygienic packing practices, and insulated transportation, we are able to create a more controlled supply chain with minimal dependence on third parties.
@@ -589,10 +594,8 @@ function AboutUs() {
             </div>
           </div>
         </section>
-
         <section className="about-operations">
           <div className="about-section-kicker">02 / OUR OPERATIONS</div>
-
           <div className="about-operation-grid">
             {sections.map((section) => (
               <motion.article
@@ -611,10 +614,8 @@ function AboutUs() {
             ))}
           </div>
         </section>
-
         <section className="about-supply">
           <div className="about-section-kicker">03 / AN INTEGRATED SUPPLY CHAIN</div>
-
           <div className="about-supply-card">
             <div>
               <div className="growth-badge">
@@ -636,7 +637,6 @@ function AboutUs() {
                 This integrated model helps us minimize interruptions, reduce unnecessary handling, and maintain better consistency throughout the journey of the fish.
               </p>
             </div>
-
             <div className="about-supply-flow">
               <div><ShipWheel size={20} /><span>Our Fishing Vessels</span></div>
               <span className="about-flow-arrow">→</span>
@@ -650,10 +650,8 @@ function AboutUs() {
             </div>
           </div>
         </section>
-
         <section className="about-difference">
           <div className="about-section-kicker">04 / WHY OUR APPROACH MATTERS</div>
-
           <div className="about-difference-grid">
             <div>
               <h2>
@@ -662,7 +660,6 @@ function AboutUs() {
                 <em>Greater control.</em>
               </h2>
             </div>
-
             <div>
               <p className="about-lead">
                 Fresh fish requires careful handling at every stage. Quality can be affected by delays, excessive handling, inadequate cooling, or interruptions in transportation.
@@ -682,7 +679,6 @@ function AboutUs() {
             </div>
           </div>
         </section>
-
         <section className="about-india">
           <div className="about-india-card">
             <div className="about-india-copy">
@@ -702,7 +698,6 @@ function AboutUs() {
                 Our infrastructure allows us to connect the source with markets across the country while maintaining our commitment to quality throughout the process.
               </p>
             </div>
-
             <div className="about-india-mark">
               <MapPin size={27} />
               <span>
@@ -712,7 +707,6 @@ function AboutUs() {
             </div>
           </div>
         </section>
-
         <section className="about-quality">
           <div className="about-quality-inner">
             <div className="about-section-kicker">06 / BUILT AROUND QUALITY</div>
@@ -736,7 +730,6 @@ function AboutUs() {
           </div>
         </section>
       </main>
-
       <footer className="about-page-footer">
         <span>© {new Date().getFullYear()} CRP</span>
         <span>Wholesale Fish · Puthiyappa · Kozhikode</span>
@@ -745,21 +738,15 @@ function AboutUs() {
     </div>
   );
 }
-
 function App() {
-
   const [menuOpen, setMenuOpen] = useState(false);
-
   const [membershipPage, setMembershipPage] = useState(
     window.location.pathname === "/join-growth"
   );
   const [aboutPage, setAboutPage] = useState(
     window.location.pathname === "/about-us"
   );
-
-
   useEffect(() => {
-
     const handlePopState = () => {
       setMembershipPage(
         window.location.pathname === "/join-growth"
@@ -768,113 +755,77 @@ function App() {
         window.location.pathname === "/about-us"
       );
     };
-
     window.addEventListener(
       "popstate",
       handlePopState
     );
-
     return () => {
       window.removeEventListener(
         "popstate",
         handlePopState
       );
     };
-
   }, []);
-
-
   const openAbout = (event) => {
     event.preventDefault();
-
     window.history.pushState({}, "", "/about-us");
     setMembershipPage(false);
     setAboutPage(true);
     setMenuOpen(false);
     window.scrollTo(0, 0);
   };
-
   const openMembership = (event) => {
-
     event.preventDefault();
-
     window.history.pushState(
       {},
       "",
       "/join-growth"
     );
-
     setMembershipPage(true);
     setAboutPage(false);
-
     window.scrollTo(0, 0);
   };
-
-
   if (membershipPage) {
     return <GrowthMembership />;
   }
-
   if (aboutPage) {
     return <AboutUs />;
   }
-
-
   const reveal = {
-
     hidden: {
       opacity: 0,
       y: 35
     },
-
     visible: {
-
       opacity: 1,
       y: 0,
-
       transition: {
         duration: 0.7,
         ease: "easeOut"
       }
-
     }
-
   };
-
-
   return (
     <div className="site-shell">
-
       <header className="navbar">
-
         <a className="brand" href="#home">
-
           <img
             src="/crp-logo.png"
             alt="CRP"
             className="brand-logo"
           />
-
         </a>
-
-
         <nav className="nav-links">
-
           <a href="/about-us" onClick={openAbout}>
             About Us
           </a>
-
           <a href="#growth">
             GROWTH
           </a>
-
           <a href="#contact">
             Contact
           </a>
-
         </nav>
-
-
         <a
           className="nav-cta"
           href={whatsappLink}
@@ -884,8 +835,6 @@ function App() {
           WhatsApp
           <ArrowUpRight size={16} />
         </a>
-
-
         <button
           className="menu-toggle"
           onClick={() =>
@@ -893,27 +842,20 @@ function App() {
           }
           aria-label="Toggle menu"
         >
-
           {menuOpen ? (
             <X size={24} />
           ) : (
             <Menu size={24} />
           )}
-
         </button>
-
-
         {menuOpen && (
-
           <div className="mobile-menu">
-
             <a
               href="/about-us"
               onClick={openAbout}
             >
               About Us
             </a>
-
             <a
               href="#growth"
               onClick={() =>
@@ -922,7 +864,6 @@ function App() {
             >
               GROWTH
             </a>
-
             <a
               href="#contact"
               onClick={() =>
@@ -931,7 +872,6 @@ function App() {
             >
               Contact
             </a>
-
             <a
               href={whatsappLink}
               target="_blank"
@@ -942,32 +882,19 @@ function App() {
             >
               WhatsApp
             </a>
-
           </div>
-
         )}
-
       </header>
-
-
       <main>
-
         {/* HERO */}
-
         <section
           className="hero"
           id="home"
         >
-
           <div className="hero-glow glow-one"></div>
-
           <div className="hero-glow glow-two"></div>
-
           <div className="hero-grid"></div>
-
-
           <div className="hero-content">
-
             <motion.div
               className="eyebrow"
               initial={{
@@ -982,14 +909,9 @@ function App() {
                 duration: 0.7
               }}
             >
-
               <span className="live-dot"></span>
-
               WHOLESALE FISH NETWORK · KOZHIKODE
-
             </motion.div>
-
-
             <motion.h1
               initial={{
                 opacity: 0,
@@ -1003,17 +925,12 @@ function App() {
                 duration: 0.8
               }}
             >
-
               Connecting the
               <br />
-
               <em>
                 fish trade.
               </em>
-
             </motion.h1>
-
-
             <motion.p
               initial={{
                 opacity: 0,
@@ -1028,14 +945,10 @@ function App() {
                 delay: 0.2
               }}
             >
-
               CRP is a wholesale fish business built around
               relationships, harbour networks and reliable market
               information across India.
-
             </motion.p>
-
-
             <motion.div
               className="hero-actions"
               initial={{
@@ -1051,81 +964,48 @@ function App() {
                 delay: 0.3
               }}
             >
-
               <a
                 className="button button-primary"
                 href="#growth"
               >
-
                 Explore GROWTH
-
                 <ArrowDown size={17} />
-
               </a>
-
-
               <a
                 className="button button-ghost"
                 href={whatsappLink}
                 target="_blank"
                 rel="noreferrer"
               >
-
                 Talk to CRP
-
                 <MessageCircle size={17} />
-
               </a>
-
             </motion.div>
-
           </div>
-
-
           <div className="hero-orbit">
-
             <div className="orbit-ring ring-one"></div>
-
             <div className="orbit-ring ring-two"></div>
-
-
             <div className="orbit-core">
-
               <Waves size={34} />
-
             </div>
-
-
             <span className="orbit-label label-a">
               KERALA
             </span>
-
             <span className="orbit-label label-b">
               INDIA
             </span>
-
             <span className="orbit-label label-c">
               HARBOURS
             </span>
-
           </div>
-
-
           <div className="scroll-cue">
-
             <span>
               SCROLL TO EXPLORE
             </span>
-
             <ArrowDown size={15} />
-
           </div>
-
         </section>
-
-
         {/* GROWTH */}
-
         <motion.section
           className="growth section reveal-section"
           id="growth"
@@ -1137,72 +1017,40 @@ function App() {
             amount: 0.1
           }}
         >
-
           <div className="growth-card">
-
             <div className="growth-map-lines"></div>
-
-
             <div className="section-kicker light">
               02 / GROWTH
             </div>
-
-
             <div className="growth-copy">
-
               <div>
-
                 <div className="growth-badge">
-
                   <Radio size={15} />
-
                   WHATSAPP TRADE NETWORK
-
                 </div>
-
-
                 <h2>
-
                   Know what's
-
                   <br />
-
                   <em>
                     available.
                   </em>
-
                 </h2>
-
               </div>
-
-
               <div className="growth-description">
-
                 <p className="lead">
-
                   GROWTH is CRP's dedicated WhatsApp community
                   for live fish availability updates from harbours
                   across India.
-
                 </p>
-
-
                 <p>
-
                   It is designed for people who need timely
                   information to make faster trade decisions —
                   bringing harbour-level availability closer to
                   the buyer.
-
                 </p>
-
               </div>
-
             </div>
-
-
             <div className="growth-network">
-
               <motion.div
                 className="network-node"
                 whileHover={{
@@ -1212,29 +1060,19 @@ function App() {
                   duration: 0.25
                 }}
               >
-
                 <div className="network-icon">
-
                   <Waves size={20} />
-
                 </div>
-
                 <span>
                   HARBOURS
                 </span>
-
                 <small>
                   Across India
                 </small>
-
               </motion.div>
-
-
               <div className="network-line">
                 <span></span>
               </div>
-
-
               <motion.div
                 className="network-node active"
                 whileHover={{
@@ -1244,29 +1082,19 @@ function App() {
                   duration: 0.25
                 }}
               >
-
                 <div className="network-icon">
-
                   <Radio size={20} />
-
                 </div>
-
                 <span>
                   LIVE UPDATES
                 </span>
-
                 <small>
                   Real-time information
                 </small>
-
               </motion.div>
-
-
               <div className="network-line">
                 <span></span>
               </div>
-
-
               <motion.div
                 className="network-node"
                 whileHover={{
@@ -1276,79 +1104,45 @@ function App() {
                   duration: 0.25
                 }}
               >
-
                 <div className="network-icon">
-
                   <Users size={20} />
-
                 </div>
-
                 <span>
                   BUYERS
                 </span>
-
                 <small>
                   Trade network
                 </small>
-
               </motion.div>
-
             </div>
-
-
             <div className="coming-soon">
-
               <div className="coming-icon">
-
                 <ShipWheel size={23} />
-
               </div>
-
-
               <div>
-
                 <span>
                   MEMBERSHIP ACCESS
                 </span>
-
                 <strong>
                   Registration Open
                 </strong>
-
               </div>
-
-
               <div className="coming-line"></div>
-
-
               <span className="coming-note">
-
                 Registration is open. CRP will contact you regarding membership activation.
-
               </span>
-
             </div>
-
-
             <a
               className="growth-join-button"
               href="/join-growth"
               onClick={openMembership}
             >
-
               Join GROWTH
-
               <ArrowUpRight size={18} />
-
             </a>
-
           </div>
-
         </motion.section>
-
-
         {/* CONTACT */}
-
         <motion.section
           className="contact section reveal-section"
           id="contact"
@@ -1360,39 +1154,23 @@ function App() {
             amount: 0.12
           }}
         >
-
           <div className="section-kicker">
             03 / CONTACT CRP
           </div>
-
-
           <div className="contact-grid">
-
             <div>
-
               <h2>
-
                 Let's talk
-
                 <br />
-
                 <em>
                   business.
                 </em>
-
               </h2>
-
-
               <p className="lead">
-
                 Need information, want to discuss a requirement,
                 or simply want to connect with CRP?
-
               </p>
-
             </div>
-
-
             <motion.div
               className="contact-card"
               whileHover={{
@@ -1402,105 +1180,58 @@ function App() {
                 duration: 0.25
               }}
             >
-
               <div className="contact-row">
-
                 <div className="contact-icon">
-
                   <Phone size={20} />
-
                 </div>
-
-
                 <div>
-
                   <span>
                     CALL / WHATSAPP
                   </span>
-
-
                   <a href={`tel:+91${phone}`}>
-
                     +91 {phone}
-
                   </a>
-
                   <strong>SHYAM PRASAD</strong>
-
                   <small>OWNER</small>
-
                 </div>
-
               </div>
-
-
               <div className="contact-row">
-
                 <div className="contact-icon">
-
                   <MapPin size={20} />
-
                 </div>
-
-
                 <div>
-
                   <span>
                     BASED IN
                   </span>
-
-
                   <strong>
-
                     Puthiyappa, Kozhikode, Kerala
-
                   </strong>
-
                 </div>
-
               </div>
-
-
               <div className="contact-actions">
-
                 <a
                   className="contact-button"
                   href={mapsLink}
                   target="_blank"
                   rel="noreferrer"
                 >
-
                   Open in Google Maps
-
                   <ArrowUpRight size={18} />
-
                 </a>
-
-
                 <a
                   className="contact-button contact-button-secondary"
                   href={whatsappLink}
                   target="_blank"
                   rel="noreferrer"
                 >
-
                   WhatsApp CRP
-
                   <MessageCircle size={18} />
-
                 </a>
-
               </div>
-
             </motion.div>
-
           </div>
-
         </motion.section>
-
       </main>
-
-
       <a
         className="floating-whatsapp"
         href={whatsappLink}
@@ -1508,34 +1239,23 @@ function App() {
         rel="noreferrer"
         aria-label="Contact CRP on WhatsApp"
       >
-
         <MessageCircle size={22} />
-
         <span>
           Chat with CRP
         </span>
-
       </a>
-
-
       <footer>
-
         <span>
           © {new Date().getFullYear()} CRP
         </span>
-
         <span>
           Wholesale Fish · Puthiyappa · Kozhikode
         </span>
-
         <a href="#home">
           Back to top ↑
         </a>
-
       </footer>
-
     </div>
   );
 }
-
 export default App;
