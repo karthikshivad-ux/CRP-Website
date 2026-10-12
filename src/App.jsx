@@ -483,9 +483,10 @@ function GrowthMembership() {
                       Copy UPI ID
                     </button>
                     <p style={{ fontSize: "0.9rem", lineHeight: 1.6, opacity: 0.8 }}>
-                      Complete the payment in your UPI app. CRP must verify the
-                      transaction in the bank account before activating your
-                      membership. This page cannot automatically confirm payment.
+                      Complete the payment in your UPI app. Please wait while
+                      we verify your payment. Verification may take up to 5-6
+                      hours. Once your payment is confirmed, you'll be
+                      automatically added to the community.
                     </p>
                   </>
                 );
