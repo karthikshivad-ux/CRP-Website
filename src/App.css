@@ -2574,3 +2574,32 @@ footer a:hover {
   }
 }
 
+
+
+/* GROWTH PAYMENT: keep the checkout below the form and scroll target visible */
+.membership-layout .upi-checkout {
+  scroll-margin-top: 24px;
+  order: 3;
+}
+
+.membership-layout .membership-info {
+  order: 1;
+}
+
+.membership-layout .membership-form {
+  order: 2;
+}
+
+@media (max-width: 900px) {
+  .membership-layout .upi-checkout {
+    grid-column: 1 / -1;
+    width: 100%;
+    margin-inline: auto !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .membership-layout .upi-checkout {
+    scroll-margin-top: 14px;
+  }
+}

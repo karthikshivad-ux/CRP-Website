@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowDown,
   ArrowLeft,
@@ -37,6 +37,21 @@ function GrowthMembership() {
   const [submitting, setSubmitting] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [paymentReference, setPaymentReference] = useState("");
+  const paymentSectionRef = useRef(null);
+
+  useEffect(() => {
+    if (!showPayment) return;
+
+    const scrollTimer = window.setTimeout(() => {
+      paymentSectionRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }, 120);
+
+    return () => window.clearTimeout(scrollTimer);
+  }, [showPayment]);
+
   const handleChange = (field, value) => {
     setFormData((current) => ({
       ...current,
@@ -202,7 +217,7 @@ function GrowthMembership() {
             onSubmit={handleSubmit}
           >
             <div className="form-heading">
-              <span>YOUR DETAILS</span>
+              <span>01 / YOUR DETAILS</span>
               <h2>
                 Tell us about yourself.
               </h2>
@@ -358,7 +373,9 @@ function GrowthMembership() {
           </form>
           {showPayment && (
             <section
+              ref={paymentSectionRef}
               className="upi-checkout"
+              aria-live="polite"
               style={{
                 marginTop: "24px",
                 padding: "24px",
@@ -366,7 +383,7 @@ function GrowthMembership() {
                 borderRadius: "16px"
               }}
             >
-              <h2>COMPLETE PAYMENT</h2>
+              <h2>02 / COMPLETE PAYMENT</h2>
               <p>
                 GROWTH Membership — <strong>₹300</strong> for one month
               </p>
