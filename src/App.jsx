@@ -558,20 +558,10 @@ function AboutUs() {
     }
   ];
   return (
-    <div className="about-page">
+    <section className="about-page" id="about">
       <div className="about-page-glow about-page-glow-one"></div>
       <div className="about-page-glow about-page-glow-two"></div>
-      <header className="about-page-header">
-        <a className="brand" href="/">
-          <img src="/crp-logo.png" alt="CRP" className="brand-logo" />
-        </a>
-        <a className="about-page-back" href="/">
-          <ArrowLeft size={17} />
-          Back to CRP
-        </a>
-      </header>
-      <main>
-        <section className="about-hero">
+      <section className="about-hero">
           <div className="about-hero-inner">
             <div className="growth-badge">
               <Waves size={15} />
@@ -747,13 +737,7 @@ function AboutUs() {
             </div>
           </div>
         </section>
-      </main>
-      <footer className="about-page-footer">
-        <span>© {new Date().getFullYear()} CRP</span>
-        <span>Wholesale Fish · Puthiyappa · Kozhikode</span>
-        <a href="/">Back to CRP ↑</a>
-      </footer>
-    </div>
+    </section>
   );
 }
 function App() {
@@ -761,16 +745,10 @@ function App() {
   const [membershipPage, setMembershipPage] = useState(
     window.location.pathname === "/join-growth"
   );
-  const [aboutPage, setAboutPage] = useState(
-    window.location.pathname === "/about-us"
-  );
   useEffect(() => {
     const handlePopState = () => {
       setMembershipPage(
         window.location.pathname === "/join-growth"
-      );
-      setAboutPage(
-        window.location.pathname === "/about-us"
       );
     };
     window.addEventListener(
@@ -784,14 +762,15 @@ function App() {
       );
     };
   }, []);
-  const openAbout = (event) => {
-    event.preventDefault();
-    window.history.pushState({}, "", "/about-us");
-    setMembershipPage(false);
-    setAboutPage(true);
-    setMenuOpen(false);
-    window.scrollTo(0, 0);
-  };
+  useEffect(() => {
+    if (window.location.pathname === "/about-us") {
+      window.history.replaceState({}, "", "/#about");
+      const element = document.getElementById("about");
+      if (element) {
+        element.scrollIntoView({ behavior: "smooth" });
+      }
+    }
+  }, []);
   const openMembership = (event) => {
     event.preventDefault();
     window.history.pushState(
@@ -800,14 +779,10 @@ function App() {
       "/join-growth"
     );
     setMembershipPage(true);
-    setAboutPage(false);
     window.scrollTo(0, 0);
   };
   if (membershipPage) {
     return <GrowthMembership />;
-  }
-  if (aboutPage) {
-    return <AboutUs />;
   }
   const reveal = {
     hidden: {
@@ -834,7 +809,7 @@ function App() {
           />
         </a>
         <nav className="nav-links">
-          <a href="/about-us" onClick={openAbout}>
+          <a href="#about">
             About Us
           </a>
           <a href="#growth">
@@ -869,8 +844,10 @@ function App() {
         {menuOpen && (
           <div className="mobile-menu">
             <a
-              href="/about-us"
-              onClick={openAbout}
+              href="#about"
+              onClick={() =>
+                setMenuOpen(false)
+              }
             >
               About Us
             </a>
@@ -1249,6 +1226,8 @@ function App() {
             </motion.div>
           </div>
         </motion.section>
+        {/* ABOUT CRP */}
+        <AboutUs />
       </main>
       <a
         className="floating-whatsapp"

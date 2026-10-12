@@ -213,7 +213,7 @@ body,
 }
 
 .about-page-glow {
-  position: fixed;
+  position: absolute;
   width: 440px;
   height: 440px;
   border-radius: 50%;
