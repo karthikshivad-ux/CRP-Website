@@ -819,16 +819,51 @@ function AboutUs() {
     </section>
   );
 }
+function NotFoundPage() {
+  return (
+    <main className="not-found-page">
+      <a className="not-found-brand" href="/" aria-label="CRP home">
+        <img src="/crp-logo.png" alt="CRP" />
+      </a>
+      <motion.section
+        className="not-found-content"
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.55, ease: "easeOut" }}
+      >
+        <div className="not-found-mark" aria-hidden="true">
+          <ShipWheel size={28} strokeWidth={1.5} />
+        </div>
+        <p className="not-found-eyebrow">LOST AT SEA</p>
+        <p className="not-found-code">404</p>
+        <h1>This page drifted off course.</h1>
+        <p className="not-found-description">
+          The page you’re looking for may have moved or no longer exists.
+          Let’s get you back to CRP.
+        </p>
+        <a className="not-found-home" href="/">
+          <ArrowLeft size={17} />
+          Back to CRP
+        </a>
+      </motion.section>
+      <div className="not-found-horizon" aria-hidden="true" />
+    </main>
+  );
+}
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+  const [notFoundPage, setNotFoundPage] = useState(
+    !["/", "/join-growth", "/about-us"].includes(currentPath)
+  );
   const [membershipPage, setMembershipPage] = useState(
-    window.location.pathname === "/join-growth"
+    currentPath === "/join-growth"
   );
   useEffect(() => {
     const handlePopState = () => {
-      setMembershipPage(
-        window.location.pathname === "/join-growth"
-      );
+      const path = window.location.pathname.replace(/\/+$/, "") || "/";
+      setMembershipPage(path === "/join-growth");
+      setNotFoundPage(!["/", "/join-growth", "/about-us"].includes(path));
     };
     window.addEventListener(
       "popstate",
@@ -842,7 +877,7 @@ function App() {
     };
   }, []);
   useEffect(() => {
-    if (window.location.pathname === "/about-us") {
+    if ((window.location.pathname.replace(/\/+$/, "") || "/") === "/about-us") {
       window.history.replaceState({}, "", "/#about");
       const element = document.getElementById("about");
       if (element) {
@@ -862,6 +897,9 @@ function App() {
   };
   if (membershipPage) {
     return <GrowthMembership />;
+  }
+  if (notFoundPage) {
+    return <NotFoundPage />;
   }
   const reveal = {
     hidden: {
