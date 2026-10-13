@@ -36,8 +36,47 @@ function GrowthMembership() {
   const [message, setMessage] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
+  const [showReturnContact, setShowReturnContact] = useState(false);
   const [paymentReference, setPaymentReference] = useState("");
   const paymentSectionRef = useRef(null);
+  const upiLaunchPendingRef = useRef(false);
+  const leftPageForUpiRef = useRef(false);
+
+  useEffect(() => {
+    const showContactAfterReturn = () => {
+      if (!upiLaunchPendingRef.current || !leftPageForUpiRef.current) return;
+
+      upiLaunchPendingRef.current = false;
+      leftPageForUpiRef.current = false;
+      setShowReturnContact(true);
+    };
+
+    const handleBlur = () => {
+      if (upiLaunchPendingRef.current) leftPageForUpiRef.current = true;
+    };
+
+    const handleFocus = () => {
+      showContactAfterReturn();
+    };
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden" && upiLaunchPendingRef.current) {
+        leftPageForUpiRef.current = true;
+      } else if (document.visibilityState === "visible") {
+        showContactAfterReturn();
+      }
+    };
+
+    window.addEventListener("blur", handleBlur);
+    window.addEventListener("focus", handleFocus);
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      window.removeEventListener("blur", handleBlur);
+      window.removeEventListener("focus", handleFocus);
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, []);
 
   useEffect(() => {
     if (!showPayment) return;
@@ -326,27 +365,30 @@ function GrowthMembership() {
               </span>
             </label>
             <div className="refund-policy">
-              <h3>No Refund Policy</h3>
-              <p>
-                GROWTH membership fees are non-refundable after
-                successful payment, except where applicable law
-                requires otherwise. Cancellations and unused
-                membership days are non-refundable. Access may
-                occasionally be affected by service interruptions.
-              </p>
-              <label className="refund-policy-accept">
-                <input
-                  type="checkbox"
-                  checked={policyAccepted}
-                  onChange={(event) => {
-                    setPolicyAccepted(event.target.checked);
-                    setError("");
-                  }}
-                />
-                <span>
-                  I have read and agree to the No Refund Policy.
-                </span>
-              </label>
+              <details>
+                <summary>No Refund Policy</summary>
+                <div className="refund-policy-details">
+                  <p>
+                    GROWTH membership fees are non-refundable after successful
+                    payment, except where applicable law requires otherwise.
+                    Cancellations and unused membership days are non-refundable.
+                    Access may occasionally be affected by service interruptions.
+                  </p>
+                  <label className="refund-policy-accept">
+                    <input
+                      type="checkbox"
+                      checked={policyAccepted}
+                      onChange={(event) => {
+                        setPolicyAccepted(event.target.checked);
+                        setError("");
+                      }}
+                    />
+                    <span>
+                      I have read and agree to the No Refund Policy.
+                    </span>
+                  </label>
+                </div>
+              </details>
             </div>
             {error && (
               <div className="form-message">
@@ -433,6 +475,10 @@ function GrowthMembership() {
                       {paymentApps.map((app) => (
                         <a
                           key={app.name}
+                          onClick={() => {
+                            upiLaunchPendingRef.current = true;
+                            leftPageForUpiRef.current = false;
+                          }}
                           href={
                             isAndroid
                               ? `intent://pay?${upiParams.toString()}#Intent;scheme=upi;package=${app.packageName};end`
@@ -488,10 +534,43 @@ function GrowthMembership() {
                       hours. Once your payment is confirmed, you'll be
                       automatically added to the community.
                     </p>
+                    <div className="payment-contact">
+                      <span>For any enquiries</span>
+                      <a href="tel:+919567145630">+91 95671 45630</a>
+                    </div>
                   </>
                 );
               })()}
             </section>
+          )}
+          {showReturnContact && (
+            <div
+              className="payment-contact-overlay"
+              role="presentation"
+              onMouseDown={(event) => {
+                if (event.target === event.currentTarget) {
+                  setShowReturnContact(false);
+                }
+              }}
+            >
+              <section
+                className="payment-contact-popup"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="payment-contact-title"
+              >
+                <button
+                  type="button"
+                  className="payment-contact-close"
+                  aria-label="Close enquiry contact"
+                  onClick={() => setShowReturnContact(false)}
+                >
+                  <X size={18} />
+                </button>
+                <span id="payment-contact-title">For any enquiries</span>
+                <a href="tel:+919567145630">+91 95671 45630</a>
+              </section>
+            </div>
           )}
 </motion.div>
       </main>

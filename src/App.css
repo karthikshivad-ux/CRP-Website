@@ -2327,7 +2327,7 @@ footer a:hover {
 
 .refund-policy details {
 
-  margin-top: 10px;
+  margin-top: 0;
 
 }
 
@@ -2344,6 +2344,32 @@ footer a:hover {
   color: #91e5ef;
 
   cursor: pointer;
+
+  list-style: none;
+
+}
+
+.refund-policy summary::-webkit-details-marker {
+
+  display: none;
+
+}
+
+.refund-policy summary::after {
+
+  content: "+";
+
+  float: right;
+
+  font-size: 16px;
+
+  line-height: 1.2;
+
+}
+
+.refund-policy details[open] summary::after {
+
+  content: "−";
 
 }
 
@@ -2510,6 +2536,86 @@ footer a:hover {
 .membership-layout .upi-checkout p strong {
   color: #ffffff;
   overflow-wrap: anywhere;
+}
+
+.payment-contact {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 6px 10px;
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(126, 220, 234, 0.16);
+  color: rgba(231, 241, 243, 0.72);
+  font-size: 13px;
+}
+
+.payment-contact a,
+.payment-contact-popup a {
+  color: #91e5ef;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.payment-contact a:hover,
+.payment-contact-popup a:hover {
+  text-decoration: underline;
+}
+
+.payment-contact-overlay {
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(1, 8, 13, 0.76);
+  backdrop-filter: blur(6px);
+}
+
+.payment-contact-popup {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  width: min(100%, 380px);
+  padding: 34px 28px 28px;
+  border: 1px solid rgba(126, 220, 234, 0.28);
+  border-radius: 18px;
+  background: linear-gradient(145deg, #10252e, #08171e);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+  color: #f4f7f8;
+  text-align: center;
+}
+
+.payment-contact-popup > span {
+  color: rgba(231, 241, 243, 0.76);
+  font-size: 14px;
+}
+
+.payment-contact-popup > a {
+  font-size: 20px;
+}
+
+.payment-contact-popup .payment-contact-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(244, 247, 248, 0.7);
+}
+
+.payment-contact-popup .payment-contact-close:hover {
+  background: rgba(126, 220, 234, 0.1);
+  color: #ffffff;
 }
 
 .membership-layout .upi-checkout > div {
