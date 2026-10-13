@@ -443,22 +443,29 @@ function GrowthMembership() {
                 });
                 const upiUrl = `upi://pay?${upiParams.toString()}`;
                 const isAndroid = /Android/i.test(navigator.userAgent);
+                const isIOS =
+                  /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+                  (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
                 const paymentApps = [
                   {
                     name: "Google Pay",
-                    packageName: "com.google.android.apps.nbu.paisa.user"
+                    packageName: "com.google.android.apps.nbu.paisa.user",
+                    iosScheme: "gpay://upi/pay"
                   },
                   {
                     name: "PhonePe",
-                    packageName: "com.phonepe.app"
+                    packageName: "com.phonepe.app",
+                    iosScheme: "phonepe://pay"
                   },
                   {
                     name: "Paytm",
-                    packageName: "net.one97.paytm"
+                    packageName: "net.one97.paytm",
+                    iosScheme: "paytmmp://pay"
                   },
                   {
                     name: "BHIM",
-                    packageName: "in.org.npci.upiapp"
+                    packageName: "in.org.npci.upiapp",
+                    iosScheme: "bhim://upi/pay"
                   }
                 ];
                 return (
@@ -482,7 +489,9 @@ function GrowthMembership() {
                           href={
                             isAndroid
                               ? `intent://pay?${upiParams.toString()}#Intent;scheme=upi;package=${app.packageName};end`
-                              : upiUrl
+                              : isIOS
+                                ? `${app.iosScheme}?${upiParams.toString()}`
+                                : upiUrl
                           }
                           className="upi-app-button"
                           style={{
