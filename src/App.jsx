@@ -24,6 +24,7 @@ const mapsLink =
   "https://www.google.com/maps/search/?api=1&query=Puthiyappa%2C%20Kozhikode%2C%20Kerala";
 function GrowthMembership() {
   const [sameAsPhone, setSameAsPhone] = useState(false);
+  const [selectedPlan, setSelectedPlan] = useState("monthly");
   const [policyAccepted, setPolicyAccepted] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -38,6 +39,11 @@ function GrowthMembership() {
   const [showPayment, setShowPayment] = useState(false);
   const [showReturnContact, setShowReturnContact] = useState(false);
   const [paymentReference, setPaymentReference] = useState("");
+  const membershipPlans = {
+    monthly: { amount: 300, label: "1 month", priceLabel: "/ month" },
+    yearly: { amount: 3000, originalAmount: 3600, label: "1 year", priceLabel: "/ year" }
+  };
+  const selectedMembershipPlan = membershipPlans[selectedPlan];
   const paymentSectionRef = useRef(null);
   const upiLaunchPendingRef = useRef(false);
   const leftPageForUpiRef = useRef(false);
@@ -152,7 +158,8 @@ function GrowthMembership() {
           place: formData.place,
           phone: formData.phone,
           whatsapp: formData.whatsapp,
-          membershipAmount: 300,
+          membershipAmount: selectedMembershipPlan.amount,
+          membershipDuration: selectedMembershipPlan.label,
           paymentReference: newPaymentReference
         })
       });
@@ -217,44 +224,70 @@ function GrowthMembership() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.15 }}
         >
-          <div className="membership-info">
-            <div className="membership-price">
-              <span>GROWTH MEMBERSHIP</span>
-              <div>
-                <strong>₹300</strong>
-                <small>/ month</small>
+          {!showPayment && (
+            <>
+              <div className="membership-info">
+                <div className="membership-price">
+                  <span>CHOOSE YOUR MEMBERSHIP</span>
+                  <div className="membership-plan-options">
+                    {Object.entries(membershipPlans).map(([planId, plan]) => (
+                      <label
+                        className={`membership-plan-option${selectedPlan === planId ? " is-selected" : ""}`}
+                        key={planId}
+                      >
+                        <input
+                          type="radio"
+                          name="membershipPlan"
+                          value={planId}
+                          checked={selectedPlan === planId}
+                          onChange={() => setSelectedPlan(planId)}
+                        />
+                        <span className="membership-plan-copy">
+                          <strong>{plan.label}</strong>
+                          <span className="membership-plan-price" key={`${planId}-${selectedPlan}`}>
+                            {plan.originalAmount && (
+                              <del>₹{plan.originalAmount.toLocaleString("en-IN")}</del>
+                            )}
+                            <strong>₹{plan.amount.toLocaleString("en-IN")}</strong>
+                          </span>
+                        </span>
+                      </label>
+                    ))}
+                  </div>
+                  <small className="membership-price-caption">
+                    Selected: ₹{selectedMembershipPlan.amount.toLocaleString("en-IN")} {selectedMembershipPlan.priceLabel}
+                  </small>
+                </div>
+                <div className="membership-benefits">
+                  <div>
+                    <Check size={17} />
+                    <span>Access to the GROWTH trade network</span>
+                  </div>
+                  <div>
+                    <Check size={17} />
+                    <span>Harbour-level availability information</span>
+                  </div>
+                  <div>
+                    <Check size={17} />
+                    <span>Direct WhatsApp trade communication</span>
+                  </div>
+                  <div>
+                    <Check size={17} />
+                    <span>Membership valid for {selectedMembershipPlan.label}</span>
+                  </div>
+                </div>
+                <div className="membership-note">
+                  <ShipWheel size={19} />
+                  <span>
+                    After successful payment, you will be added
+                    to the GROWTH WhatsApp group within 24 hours.
+                  </span>
+                </div>
               </div>
-            </div>
-            <div className="membership-benefits">
-              <div>
-                <Check size={17} />
-                <span>Access to the GROWTH trade network</span>
-              </div>
-              <div>
-                <Check size={17} />
-                <span>Harbour-level availability information</span>
-              </div>
-              <div>
-                <Check size={17} />
-                <span>Direct WhatsApp trade communication</span>
-              </div>
-              <div>
-                <Check size={17} />
-                <span>Membership valid for one month</span>
-              </div>
-            </div>
-            <div className="membership-note">
-              <ShipWheel size={19} />
-              <span>
-                After successful payment, you will be added
-                to the GROWTH WhatsApp group within 24 hours.
-              </span>
-            </div>
-          </div>
-          <form
-            className="membership-form"
-            onSubmit={handleSubmit}
-          >
+              <form
+                className="membership-form"
+                onSubmit={handleSubmit}
+              >
             <div className="form-heading">
               <span>YOUR DETAILS</span>
               <h2>
@@ -412,7 +445,9 @@ function GrowthMembership() {
               Your details will be securely stored for membership
               registration and payment processing.
             </p>
-          </form>
+              </form>
+            </>
+          )}
           {showPayment && (
             <section
               ref={paymentSectionRef}
@@ -427,7 +462,7 @@ function GrowthMembership() {
             >
               <h2>COMPLETE PAYMENT</h2>
               <p>
-                GROWTH Membership — <strong>₹300</strong> for one month
+                Registration successful. GROWTH Membership — <strong>₹{selectedMembershipPlan.amount.toLocaleString("en-IN")}</strong> for {selectedMembershipPlan.label}
               </p>
               <p>
                 Payment reference: <strong>{paymentReference}</strong>
@@ -436,9 +471,9 @@ function GrowthMembership() {
                 const upiParams = new URLSearchParams({
                   pa: "karthikshivad@oksbi",
                   pn: "CRP",
-                  am: "300.00",
+                  am: `${selectedMembershipPlan.amount}.00`,
                   cu: "INR",
-                  tn: `GROWTH Membership ${paymentReference}`,
+                  tn: `GROWTH Membership ${selectedMembershipPlan.label} ${paymentReference}`,
                   tr: paymentReference
                 });
                 const upiUrl = `upi://pay?${upiParams.toString()}`;

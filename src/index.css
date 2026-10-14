@@ -275,6 +275,100 @@ code {
   margin-top: 12px;
 }
 
+.membership-price > .membership-plan-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.membership-plan-option {
+  display: flex;
+  min-width: 0;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 15px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.025);
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.membership-plan-option.is-selected {
+  border-color: rgba(126, 220, 234, 0.55);
+  background: rgba(126, 220, 234, 0.08);
+}
+
+.membership-plan-option input {
+  flex: 0 0 auto;
+  margin: 4px 0 0;
+  accent-color: #7edcea;
+}
+
+.membership-plan-copy {
+  display: grid;
+  gap: 5px;
+}
+
+.membership-price .membership-plan-copy > strong {
+  color: rgba(255, 255, 255, 0.68);
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.membership-plan-copy > span {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+.membership-plan-price {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  animation: membership-price-arrive 220ms ease-out both;
+}
+
+.membership-plan-price del {
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+.membership-price .membership-plan-copy .membership-plan-price > strong {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: normal;
+}
+
+@keyframes membership-price-arrive {
+  from {
+    opacity: 0.65;
+    transform: translateY(3px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .membership-plan-price {
+    animation: none;
+  }
+}
+
+.membership-price small.membership-price-caption {
+  display: block;
+  margin-top: 12px;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.8rem;
+}
+
 .membership-price strong {
   font-size: 3.5rem;
   letter-spacing: -0.05em;
