@@ -54,3 +54,18 @@ HARBOURS
 LIVE UPDATES
     ↓
 BUYERS
+
+```
+
+## CRP GROWTH Admin
+
+The private admin console is available at `/growth-admin`; no admin link is shown on the public site. It uses Supabase email/password Auth. Only the comma-separated addresses in the server environment variable `GROWTH_ADMIN_EMAILS` may sign in. Add those users under Supabase Authentication before granting access, and keep `SUPABASE_SERVICE_ROLE_KEY` server-only.
+
+Before deployment:
+
+1. Run `supabase/migrations/202610160001_growth_admin.sql` in the Supabase SQL Editor.
+2. Configure `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GROWTH_ADMIN_EMAILS`, and `PUBLIC_SITE_URL` in the local/Vercel server environment. Use `.env.example` as a name-only template; never expose the service-role key in browser code.
+3. Add `/growth-admin?recovery=1` to the Supabase Auth redirect URL allowlist to enable password reset links.
+4. Verify UPI transfers in the Payments page and enter the verified transaction reference. A verified payment starts or extends the member's plan and is included in monthly revenue.
+
+The migration creates payment and membership-period history for new registrations. Existing members remain visible, but historical dates and transactions are not inferred or backfilled; review those with the member and enter them through a separate migration or reconciliation process if needed. Monthly revenue counts only verified payment records.

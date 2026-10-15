@@ -1,3 +1,4 @@
+import { randomUUID } from "node:crypto";
 import { createClient } from "@supabase/supabase-js";
 
 export default async function handler(req, res) {
@@ -19,8 +20,15 @@ export default async function handler(req, res) {
       businessName,
       place,
       phone,
-      whatsapp
+      whatsapp,
+      membershipPlan,
+      membershipAmount
     } = req.body || {};
+    const plans = {
+      monthly: { amount: 300 },
+      yearly: { amount: 3000 }
+    };
+    const selectedPlan = plans[membershipPlan];
 
     if (!name?.trim()) {
       return res.status(400).json({
@@ -50,6 +58,13 @@ export default async function handler(req, res) {
       });
     }
 
+    if (!selectedPlan || Number(membershipAmount) !== selectedPlan.amount) {
+      return res.status(400).json({
+        success: false,
+        message: "Choose a valid GROWTH membership plan."
+      });
+    }
+
     const { data, error } = await supabase
       .from("growth_memberships")
       .insert({
@@ -58,6 +73,7 @@ export default async function handler(req, res) {
         place: place.trim(),
         phone,
         whatsapp,
+        membership_plan: membershipPlan,
         payment_status: "pending",
         membership_status: "pending"
       })
@@ -73,9 +89,29 @@ export default async function handler(req, res) {
       });
     }
 
+    const paymentReference = `CRPG-${Date.now()}-${randomUUID().slice(0, 8).toUpperCase()}`;
+    const { error: paymentError } = await supabase.from("growth_payments").insert({
+      membership_id: data.id,
+      amount: selectedPlan.amount,
+      currency: "INR",
+      membership_plan: membershipPlan,
+      payment_method: "UPI",
+      payment_reference: paymentReference,
+      status: "pending"
+    });
+    if (paymentError) {
+      await supabase.from("growth_memberships").delete().eq("id", data.id);
+      console.error("Supabase payment record error:", paymentError.message);
+      return res.status(500).json({
+        success: false,
+        message: "Unable to create a payment record. Please contact CRP before retrying."
+      });
+    }
+
     return res.status(201).json({
       success: true,
-      membershipId: data.id
+      membershipId: data.id,
+      paymentReference
     });
   } catch (error) {
     console.error("Server error:", error);

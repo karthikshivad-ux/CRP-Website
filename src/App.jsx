@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import "./App.css";
 import "./AboutUs.css";
+import GrowthAdmin from "./GrowthAdmin.jsx";
 const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
 const mapsLink =
@@ -35,6 +36,7 @@ function GrowthMembership() {
   });
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [paymentNotice, setPaymentNotice] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [showPayment, setShowPayment] = useState(false);
   const [showReturnContact, setShowReturnContact] = useState(false);
@@ -144,8 +146,6 @@ function GrowthMembership() {
       return;
     }
     setSubmitting(true);
-    const newPaymentReference =
-      `CRPG-${Date.now()}-${Math.random().toString(36).slice(2, 8).toUpperCase()}`;
     try {
       const response = await fetch("/api/growth/register", {
         method: "POST",
@@ -158,9 +158,8 @@ function GrowthMembership() {
           place: formData.place,
           phone: formData.phone,
           whatsapp: formData.whatsapp,
+          membershipPlan: selectedPlan,
           membershipAmount: selectedMembershipPlan.amount,
-          membershipDuration: selectedMembershipPlan.label,
-          paymentReference: newPaymentReference
         })
       });
       const result = await response.json().catch(() => ({}));
@@ -169,7 +168,7 @@ function GrowthMembership() {
           result.message || "Unable to register your membership details."
         );
       }
-      setPaymentReference(newPaymentReference);
+      setPaymentReference(result.paymentReference);
       setShowPayment(true);
       setMessage(
         "Your details have been registered successfully. Complete the UPI payment below. Membership will be activated after payment verification."
@@ -564,14 +563,15 @@ function GrowthMembership() {
                       onClick={() => {
                         if (navigator.clipboard?.writeText) {
                           navigator.clipboard.writeText("karthikshivad@oksbi");
-                          setMessage("UPI ID copied. Complete payment in your UPI app.");
+                          setPaymentNotice("UPI ID copied. Complete payment in your UPI app.");
                         } else {
-                          setMessage("UPI ID: karthikshivad@oksbi");
+                          setPaymentNotice("UPI ID: karthikshivad@oksbi");
                         }
                       }}
                     >
                       Copy UPI ID
                     </button>
+                    {paymentNotice && <p className="upi-copy-notice" role="status">{paymentNotice}</p>}
                     <p style={{ fontSize: "0.9rem", lineHeight: 1.6, opacity: 0.8 }}>
                       Complete the payment in your UPI app. Please wait while
                       we verify your payment. Verification may take up to 5-6
@@ -897,8 +897,9 @@ function NotFoundPage() {
 function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
+  const [adminPage, setAdminPage] = useState(currentPath === "/growth-admin");
   const [notFoundPage, setNotFoundPage] = useState(
-    !["/", "/join-growth", "/about-us"].includes(currentPath)
+    !["/", "/join-growth", "/about-us", "/growth-admin"].includes(currentPath)
   );
   const [membershipPage, setMembershipPage] = useState(
     currentPath === "/join-growth"
@@ -907,7 +908,8 @@ function App() {
     const handlePopState = () => {
       const path = window.location.pathname.replace(/\/+$/, "") || "/";
       setMembershipPage(path === "/join-growth");
-      setNotFoundPage(!["/", "/join-growth", "/about-us"].includes(path));
+      setAdminPage(path === "/growth-admin");
+      setNotFoundPage(!["/", "/join-growth", "/about-us", "/growth-admin"].includes(path));
     };
     window.addEventListener(
       "popstate",
@@ -941,6 +943,9 @@ function App() {
   };
   if (membershipPage) {
     return <GrowthMembership />;
+  }
+  if (adminPage) {
+    return <GrowthAdmin />;
   }
   if (notFoundPage) {
     return <NotFoundPage />;

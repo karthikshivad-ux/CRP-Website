@@ -2810,6 +2810,11 @@ footer a:hover {
   background: rgba(126, 220, 234, 0.16);
 }
 
+.membership-layout .upi-checkout .upi-copy-notice {
+  color: #8ce6b9;
+  font-size: 12px;
+}
+
 @media (max-width: 900px) {
   .membership-layout .upi-checkout {
     width: 100%;
