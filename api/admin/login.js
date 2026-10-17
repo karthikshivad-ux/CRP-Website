@@ -1,7 +1,9 @@
 import {
   allowedAdminEmails,
   createAdminClient,
+  isValidEmail,
   methodNotAllowed,
+  normalizeEmail,
   setAdminSessionCookies
 } from "../../lib/growth-admin.js";
 
@@ -9,12 +11,15 @@ export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return methodNotAllowed(res, ["POST"]);
   const { email, password } = req.body || {};
-  const normalizedEmail = String(email || "").trim().toLowerCase();
+  const normalizedEmail = normalizeEmail(email);
+  if (!isValidEmail(normalizedEmail)) {
+    return res.status(400).json({ success: false, message: "Enter a valid email address." });
+  }
   const admins = allowedAdminEmails();
   if (!admins.has(normalizedEmail)) {
     return res.status(401).json({ success: false, message: "Email or password is incorrect." });
   }
-  if (typeof password !== "string" || !password) {
+  if (typeof password !== "string" || !password || password.length > 1024) {
     return res.status(400).json({ success: false, message: "Enter your password." });
   }
 
@@ -27,7 +32,7 @@ export default async function handler(req, res) {
     if (error || !data.session || !data.user) {
       return res.status(401).json({ success: false, message: "Email or password is incorrect." });
     }
-    if (!admins.has(String(data.user.email || "").toLowerCase())) {
+    if (!admins.has(normalizeEmail(data.user.email))) {
       await client.auth.signOut({ scope: "local" });
       return res.status(403).json({ success: false, message: "This account is not authorized for admin access." });
     }

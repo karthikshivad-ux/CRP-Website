@@ -44,6 +44,18 @@ const date = (value, options = { day: "2-digit", month: "short", year: "numeric"
 };
 
 const memberCode = (id) => String(id || "").replaceAll("-", "").slice(0, 8).toUpperCase();
+const normalizedEmail = (value) => String(value || "").trim().toLowerCase();
+const validEmail = (value) => {
+  const email = normalizedEmail(value);
+  if (!email || email.length > 254) return false;
+  const at = email.lastIndexOf("@");
+  if (at < 1 || at > 64 || email.indexOf("@") !== at) return false;
+  const local = email.slice(0, at);
+  const labels = email.slice(at + 1).split(".");
+  return !local.startsWith(".") && !local.endsWith(".") && !local.includes("..") &&
+    /^[a-z0-9.!#$%&'*+/=?^_`{|}~.-]+$/i.test(local) && labels.length > 1 &&
+    labels.every((label) => label.length <= 63 && /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/i.test(label));
+};
 
 const getStatus = (member) => {
   if (member.membership_status === "active" && member.membership_end_date) {
@@ -130,13 +142,15 @@ function GrowthAdminLogin({ onLogin, recovery, initialError }) {
     setNotice("");
     setBusy(true);
     try {
+      const cleanEmail = normalizedEmail(email);
+      if (mode !== "recovery" && !validEmail(cleanEmail)) throw new Error("Enter a valid email address.");
       if (mode === "login") {
-        await onLogin(email, password);
+        await onLogin(cleanEmail, password);
         return;
       }
       if (mode === "forgot") {
         const result = await request("/api/admin/forgot-password", {
-          method: "POST", body: JSON.stringify({ email })
+          method: "POST", body: JSON.stringify({ email: cleanEmail })
         });
         setNotice(result.message);
         return;
@@ -186,7 +200,7 @@ function GrowthAdminLogin({ onLogin, recovery, initialError }) {
         {mode !== "recovery" && (
           <label className="ga-field">
             <span>Email address</span>
-            <span className="ga-input-wrap"><Mail size={17} /><input type="email" autoComplete="username" value={email} onChange={(event) => setEmail(event.target.value)} placeholder="admin@example.com" required /></span>
+            <span className="ga-input-wrap"><Mail size={17} /><input type="email" autoComplete="email" autoCapitalize="none" spellCheck="false" maxLength="254" value={email} onBlur={() => setEmail(normalizedEmail(email))} onChange={(event) => setEmail(event.target.value)} placeholder="admin@example.com" required /></span>
           </label>
         )}
         {mode !== "forgot" && (

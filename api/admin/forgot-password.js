@@ -1,13 +1,18 @@
 import {
   allowedAdminEmails,
   createAdminClient,
-  methodNotAllowed
+  isValidEmail,
+  methodNotAllowed,
+  normalizeEmail
 } from "../../lib/growth-admin.js";
 
 export default async function handler(req, res) {
   res.setHeader("Cache-Control", "no-store");
   if (req.method !== "POST") return methodNotAllowed(res, ["POST"]);
-  const email = String(req.body?.email || "").trim().toLowerCase();
+  const email = normalizeEmail(req.body?.email);
+  if (!isValidEmail(email)) {
+    return res.status(400).json({ success: false, message: "Enter a valid email address." });
+  }
   const admins = allowedAdminEmails();
   if (admins.size === 0) {
     return res.status(503).json({ success: false, message: "Admin access is not configured." });
