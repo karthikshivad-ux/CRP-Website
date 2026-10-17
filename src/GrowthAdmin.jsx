@@ -376,7 +376,7 @@ function AddMemberDialog({ onClose, onSaved }) {
     setError("");
     setBusy(true);
     try {
-      await request("/api/admin/add-member", { method: "POST", body: JSON.stringify(form) });
+      await request("/api/admin/members", { method: "POST", body: JSON.stringify(form) });
       await onSaved();
     } catch (saveError) {
       setError(saveError.message);
@@ -575,7 +575,7 @@ export default function GrowthAdmin() {
     setContentError("");
     setExportingStatus(exportStatus);
     try {
-      const result = await request(`/api/admin/members/export?status=${encodeURIComponent(exportStatus)}`);
+      const result = await request(`/api/admin/members?export=pdf&status=${encodeURIComponent(exportStatus)}`);
       printWindow.document.open();
       printWindow.document.write(memberExportDocument(result.members, result.status, result.generatedAt));
       printWindow.document.close();
