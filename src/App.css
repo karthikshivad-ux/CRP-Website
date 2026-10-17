@@ -2869,3 +2869,42 @@ footer a:hover {
     scroll-margin-top: 14px;
   }
 }
+
+/* PHONE LAYOUT POLISH */
+@media (max-width: 600px) {
+  .hero-orbit {
+    top: 84%;
+    right: -118px;
+    width: 225px;
+    opacity: 0.16;
+  }
+
+  /* Keep the fixed shortcut from covering paragraphs while the page scrolls. */
+  .floating-whatsapp {
+    display: none;
+  }
+
+  .membership-layout,
+  .membership-layout > *,
+  .membership-form,
+  .membership-info {
+    min-width: 0;
+  }
+
+  .membership-header,
+  .membership-main {
+    width: min(100% - 32px, 1180px);
+  }
+
+  .membership-intro h1 {
+    overflow-wrap: anywhere;
+  }
+
+  .membership-form .phone-input {
+    min-width: 0;
+  }
+
+  .membership-form .phone-input input {
+    min-width: 0;
+  }
+}
