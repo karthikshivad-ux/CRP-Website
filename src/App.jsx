@@ -19,6 +19,7 @@ import {
 import "./App.css";
 import "./AboutUs.css";
 import GrowthAdmin from "./GrowthAdmin.jsx";
+import LegalPage from "./LegalPages.jsx";
 const phone = "9447152630";
 const whatsappLink = `https://wa.me/91${phone}`;
 const mapsLink =
@@ -618,6 +619,13 @@ function GrowthMembership() {
           )}
 </motion.div>
       </main>
+      <footer className="membership-footer">
+        <span>© {new Date().getFullYear()} CRP GROWTH</span>
+        <nav aria-label="Legal information">
+          <a href="/terms-of-service">Terms of Service</a>
+          <a href="/privacy-policy">Privacy Policy</a>
+        </nav>
+      </footer>
     </div>
   );
 }
@@ -898,8 +906,13 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const currentPath = window.location.pathname.replace(/\/+$/, "") || "/";
   const [adminPage, setAdminPage] = useState(currentPath === "/growth-admin");
+  const legalPolicy = currentPath === "/terms-of-service"
+    ? "terms"
+    : currentPath === "/privacy-policy"
+      ? "privacy"
+      : null;
   const [notFoundPage, setNotFoundPage] = useState(
-    !["/", "/join-growth", "/about-us", "/growth-admin"].includes(currentPath)
+    !["/", "/join-growth", "/about-us", "/growth-admin", "/terms-of-service", "/privacy-policy"].includes(currentPath)
   );
   const [membershipPage, setMembershipPage] = useState(
     currentPath === "/join-growth"
@@ -909,7 +922,7 @@ function App() {
       const path = window.location.pathname.replace(/\/+$/, "") || "/";
       setMembershipPage(path === "/join-growth");
       setAdminPage(path === "/growth-admin");
-      setNotFoundPage(!["/", "/join-growth", "/about-us", "/growth-admin"].includes(path));
+      setNotFoundPage(!["/", "/join-growth", "/about-us", "/growth-admin", "/terms-of-service", "/privacy-policy"].includes(path));
     };
     window.addEventListener(
       "popstate",
@@ -946,6 +959,9 @@ function App() {
   }
   if (adminPage) {
     return <GrowthAdmin />;
+  }
+  if (legalPolicy) {
+    return <LegalPage policy={legalPolicy} />;
   }
   if (notFoundPage) {
     return <NotFoundPage />;
