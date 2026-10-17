@@ -5,7 +5,8 @@ alter table public.growth_memberships
   add column if not exists membership_plan text not null default 'monthly'
     check (membership_plan in ('monthly', 'yearly')),
   add column if not exists membership_start_date date,
-  add column if not exists membership_end_date date;
+  add column if not exists membership_end_date date,
+  add column if not exists created_at timestamptz default now();
 
 create table if not exists public.growth_payments (
   id uuid primary key default gen_random_uuid(),

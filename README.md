@@ -68,4 +68,6 @@ Before deployment:
 3. Add `/growth-admin?recovery=1` to the Supabase Auth redirect URL allowlist to enable password reset links.
 4. Verify UPI transfers in the Payments page and enter the verified transaction reference. A verified payment starts or extends the member's plan and is included in monthly revenue.
 
+From the Members page, admins can add a member with a pending payment record, then verify the transfer from Payments to activate the membership. The status export prepares a print-ready member list; choose **Save as PDF** in the browser's print dialog to download it.
+
 The migration creates payment and membership-period history for new registrations. Existing members remain visible, but historical dates and transactions are not inferred or backfilled; review those with the member and enter them through a separate migration or reconciliation process if needed. Monthly revenue counts only verified payment records.

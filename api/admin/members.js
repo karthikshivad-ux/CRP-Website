@@ -21,7 +21,18 @@ export default async function handler(req, res) {
       query = query.or(`name.ilike.%${term}%,member_code.ilike.%${term}%,business_name.ilike.%${term}%,phone.ilike.%${term}%`);
     }
     if (req.query.status === "active") {
-      query = query.eq("membership_status", "active").gte("membership_end_date", indiaToday());
+      const today = indiaToday();
+      const through = new Date(`${today}T00:00:00Z`);
+      through.setUTCDate(through.getUTCDate() + 5);
+      query = query.eq("membership_status", "active")
+        .gt("membership_end_date", through.toISOString().slice(0, 10));
+    } else if (req.query.status === "expiring") {
+      const today = indiaToday();
+      const through = new Date(`${today}T00:00:00Z`);
+      through.setUTCDate(through.getUTCDate() + 5);
+      query = query.eq("membership_status", "active")
+        .gte("membership_end_date", today)
+        .lte("membership_end_date", through.toISOString().slice(0, 10));
     } else if (req.query.status === "expired") {
       const today = indiaToday();
       query = query.or(`membership_status.eq.expired,and(membership_status.eq.active,membership_end_date.lt.${today})`);

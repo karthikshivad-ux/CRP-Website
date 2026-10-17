@@ -11,8 +11,10 @@ import {
   ChevronRight,
   Clock3,
   CreditCard,
+  Download,
   Eye,
   EyeOff,
+  FileText,
   IndianRupee,
   LayoutDashboard,
   LoaderCircle,
@@ -25,6 +27,7 @@ import {
   RefreshCw,
   Search,
   ShieldCheck,
+  UserPlus,
   Users,
   X
 } from "lucide-react";
@@ -53,6 +56,39 @@ const getStatus = (member) => {
   }
   return member.membership_status || "pending";
 };
+
+const escapeHtml = (value) => String(value ?? "")
+  .replaceAll("&", "&amp;")
+  .replaceAll("<", "&lt;")
+  .replaceAll(">", "&gt;")
+  .replaceAll('"', "&quot;")
+  .replaceAll("'", "&#39;");
+
+function memberExportDocument(members, status, generatedAt) {
+  const labels = { active: "Active Members", expiring: "Expiring in the Next 5 Days", expired: "Expired Members" };
+  const title = labels[status];
+  const rows = members.map((member) => `
+    <tr>
+      <td>CRP-${escapeHtml(member.member_code || memberCode(member.id))}</td>
+      <td><strong>${escapeHtml(member.name || "Unnamed member")}</strong><small>${escapeHtml(member.business_name || "")}${member.place ? `${member.business_name ? " · " : ""}${escapeHtml(member.place)}` : ""}</small></td>
+      <td><strong>${escapeHtml(member.phone || "—")}</strong><small>WhatsApp: ${escapeHtml(member.whatsapp || "—")}</small></td>
+      <td>${member.membership_plan === "yearly" ? "1 year" : member.membership_plan === "monthly" ? "1 month" : "—"}</td>
+      <td>${escapeHtml(date(member.membership_start_date))}</td>
+      <td>${escapeHtml(date(member.membership_end_date))}</td>
+      <td>${escapeHtml(status)}</td>
+      <td>${escapeHtml(member.payment_status || "—")}</td>
+    </tr>`).join("");
+  return `<!doctype html><html><head><meta charset="utf-8"><title>CRP GROWTH - ${title}</title><style>
+    @page{size:landscape;margin:12mm}*{box-sizing:border-box}body{font-family:Arial,"Noto Sans",sans-serif;color:#16344b;margin:0;font-size:10pt}
+    header{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid #08729a;padding-bottom:12px;margin-bottom:18px}
+    h1{font-size:20pt;margin:0 0 5px}p{margin:0;color:#64798a;font-size:9pt}.brand{font-weight:700;color:#08729a;font-size:9pt;letter-spacing:.12em}
+    table{width:100%;border-collapse:collapse}th{background:#eef5f8;color:#456175;text-align:left;font-size:8pt;text-transform:uppercase;letter-spacing:.05em}
+    th,td{padding:9px 8px;border-bottom:1px solid #dce6ec;vertical-align:top}td{font-size:9pt}td small{display:block;color:#768a98;margin-top:3px}footer{margin-top:12px;color:#7d8d99;font-size:8pt}
+    .empty{padding:24px;text-align:center;color:#718392}@media print{tr{break-inside:avoid}}
+  </style></head><body><header><div><div class="brand">CRP GROWTH · MEMBERSHIP</div><h1>${title}</h1><p>${members.length} member${members.length === 1 ? "" : "s"}</p></div><p>Generated ${escapeHtml(date(generatedAt, { day: "2-digit", month: "short", year: "numeric" }))}</p></header>
+    <table><thead><tr><th>Member ID</th><th>Name / Business / Place</th><th>Phone / WhatsApp</th><th>Plan</th><th>Start date</th><th>Expiry date</th><th>Membership</th><th>Payment</th></tr></thead><tbody>${rows || '<tr><td colspan="8" class="empty">No members in this status group.</td></tr>'}</tbody></table>
+    <footer>Confidential member information · CRP GROWTH</footer></body></html>`;
+}
 
 async function request(url, options = {}) {
   const response = await fetch(url, {
@@ -327,6 +363,51 @@ function PaymentVerifyDialog({ payment, onClose, onSaved }) {
   );
 }
 
+function AddMemberDialog({ onClose, onSaved }) {
+  const [form, setForm] = useState({ name: "", businessName: "", place: "", phone: "", whatsapp: "", membershipPlan: "monthly" });
+  const [whatsappEdited, setWhatsappEdited] = useState(false);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState(false);
+  const amount = form.membershipPlan === "yearly" ? 3000 : 300;
+  const update = (key, value) => setForm((current) => ({ ...current, [key]: value }));
+
+  const submit = async (event) => {
+    event.preventDefault();
+    setError("");
+    setBusy(true);
+    try {
+      await request("/api/admin/add-member", { method: "POST", body: JSON.stringify(form) });
+      await onSaved();
+    } catch (saveError) {
+      setError(saveError.message);
+    } finally {
+      setBusy(false);
+    }
+  };
+
+  return (
+    <div className="ga-modal-backdrop" role="presentation" onMouseDown={(event) => event.target === event.currentTarget && onClose()}>
+      <form className="ga-modal ga-add-member-modal" onSubmit={submit}>
+        <button className="ga-modal-close" type="button" onClick={onClose} aria-label="Close"><X size={18} /></button>
+        <span className="ga-eyebrow">MEMBER MANAGEMENT</span>
+        <h2>Add a member</h2>
+        <p className="ga-modal-copy">Add their details and create a pending payment. Verify the payment from the Payments page to activate the membership.</p>
+        <label className="ga-field"><span>Full name</span><input value={form.name} onChange={(event) => update("name", event.target.value)} maxLength="120" autoComplete="name" required /></label>
+        <div className="ga-form-grid">
+          <label className="ga-field"><span>Business name <small>Optional</small></span><input value={form.businessName} onChange={(event) => update("businessName", event.target.value)} maxLength="160" /></label>
+          <label className="ga-field"><span>Place <small>Optional</small></span><input value={form.place} onChange={(event) => update("place", event.target.value)} maxLength="160" /></label>
+          <label className="ga-field"><span>Phone number</span><input type="tel" inputMode="numeric" autoComplete="tel-national" value={form.phone} onChange={(event) => { const phone = event.target.value.replace(/\D/g, "").slice(0, 10); update("phone", phone); if (!whatsappEdited) update("whatsapp", phone); }} pattern="[0-9]{10}" maxLength="10" placeholder="10-digit number" required /></label>
+          <label className="ga-field"><span>WhatsApp number <small>Defaults to phone</small></span><input type="tel" inputMode="numeric" value={form.whatsapp} onChange={(event) => { setWhatsappEdited(true); update("whatsapp", event.target.value.replace(/\D/g, "").slice(0, 10)); }} pattern="[0-9]{10}" maxLength="10" placeholder="10-digit number" required /></label>
+        </div>
+        <label className="ga-field"><span>Membership plan</span><select value={form.membershipPlan} onChange={(event) => update("membershipPlan", event.target.value)}><option value="monthly">1 month · ₹300</option><option value="yearly">1 year · ₹3,000</option></select></label>
+        <div className="ga-add-member-note"><IndianRupee size={15} />A ₹{amount.toLocaleString("en-IN")} pending UPI payment record will be created.</div>
+        {error && <div className="ga-alert ga-alert-error"><AlertCircle size={16} />{error}</div>}
+        <div className="ga-modal-actions"><button type="button" className="ga-secondary" onClick={onClose}>Cancel</button><button className="ga-primary" disabled={busy}>{busy ? "Adding…" : "Add member"}</button></div>
+      </form>
+    </div>
+  );
+}
+
 function MemberDetails({ id, onBack }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -408,6 +489,9 @@ export default function GrowthAdmin() {
   const [memberPage, setMemberPage] = useState(1);
   const [memberId, setMemberId] = useState("");
   const [verifyPayment, setVerifyPayment] = useState(null);
+  const [addMemberOpen, setAddMemberOpen] = useState(false);
+  const [exportStatus, setExportStatus] = useState("");
+  const [exportingStatus, setExportingStatus] = useState("");
 
   const recovery = useMemo(() => {
     const hash = new URLSearchParams(window.location.hash.slice(1));
@@ -477,6 +561,51 @@ export default function GrowthAdmin() {
       setContentError(error.message);
     } finally {
       setLoadingContent(false);
+    }
+  };
+
+  const exportMemberPdf = async () => {
+    if (!exportStatus || exportingStatus) return;
+    const printWindow = window.open("", "_blank");
+    if (!printWindow) {
+      setContentError("Allow pop-ups for this site to export the PDF.");
+      return;
+    }
+    printWindow.document.write("<!doctype html><title>Preparing member report…</title><p style='font:16px Arial;padding:24px'>Preparing member report…</p>");
+    setContentError("");
+    setExportingStatus(exportStatus);
+    try {
+      const result = await request(`/api/admin/members/export?status=${encodeURIComponent(exportStatus)}`);
+      printWindow.document.open();
+      printWindow.document.write(memberExportDocument(result.members, result.status, result.generatedAt));
+      printWindow.document.close();
+      printWindow.document.title = `CRP GROWTH ${exportStatus} members`;
+      printWindow.focus();
+      window.setTimeout(() => printWindow.print(), 350);
+    } catch (error) {
+      printWindow.close();
+      setContentError(error.message);
+    } finally {
+      setExportingStatus("");
+    }
+  };
+
+  const onMemberAdded = async () => {
+    setAddMemberOpen(false);
+    setSearch("");
+    setStatusFilter("");
+    setPlanFilter("");
+    setMemberPage(1);
+    setContentError("");
+    try {
+      const [list] = await Promise.all([
+        request("/api/admin/members?page=1"),
+        loadDashboard().catch(() => null)
+      ]);
+      setMembers(list.members);
+      setMembersTotal(list.total);
+    } catch (error) {
+      setContentError(error.message);
     }
   };
 
@@ -577,9 +706,15 @@ export default function GrowthAdmin() {
 
               {!loadingContent && view === "members" && (
                 <section className="ga-panel ga-members-panel">
-                  <div className="ga-panel-heading ga-members-toolbar"><div><h2>Members</h2><p>{membersTotal.toLocaleString("en-IN")} member records</p></div>
+                  <div className="ga-panel-heading ga-members-toolbar"><div className="ga-members-title-row"><div><h2>Members</h2><p>{membersTotal.toLocaleString("en-IN")} member records</p></div>
+                    <div className="ga-member-actions">
+                      <label className="ga-select-wrap ga-export-select"><FileText size={15} /><select aria-label="Choose member status to export" value={exportStatus} onChange={(event) => setExportStatus(event.target.value)}><option value="">Export status…</option><option value="active">Active members</option><option value="expiring">Expiring soon</option><option value="expired">Expired members</option></select><ChevronDown size={15} /></label>
+                      <button className="ga-export-button" type="button" disabled={!exportStatus || Boolean(exportingStatus)} onClick={exportMemberPdf}><Download size={15} />{exportingStatus ? "Preparing…" : "Export PDF"}</button>
+                      <button className="ga-add-member-button" type="button" onClick={() => setAddMemberOpen(true)}><UserPlus size={16} />Add member</button>
+                    </div>
+                  </div>
                     <div className="ga-filters"><label className="ga-search"><Search size={17} /><input value={search} onChange={(event) => { setSearch(event.target.value); setMemberPage(1); }} placeholder="Search name, phone or member ID" /></label>
-                      <label className="ga-select-wrap"><select value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); setMemberPage(1); }}><option value="">All statuses</option><option value="active">Active</option><option value="pending">Pending</option><option value="expired">Expired</option></select><ChevronDown size={15} /></label>
+                      <label className="ga-select-wrap"><select value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); setMemberPage(1); }}><option value="">All statuses</option><option value="active">Active</option><option value="expiring">Expiring soon</option><option value="pending">Pending</option><option value="expired">Expired</option></select><ChevronDown size={15} /></label>
                       <label className="ga-select-wrap"><select value={planFilter} onChange={(event) => { setPlanFilter(event.target.value); setMemberPage(1); }}><option value="">All plans</option><option value="monthly">1 month</option><option value="yearly">1 year</option></select><ChevronDown size={15} /></label>
                     </div>
                   </div>
@@ -596,6 +731,7 @@ export default function GrowthAdmin() {
         </main>
       </div>
       {verifyPayment && <PaymentVerifyDialog payment={verifyPayment} onClose={() => setVerifyPayment(null)} onSaved={onPaymentSaved} />}
+      {addMemberOpen && <AddMemberDialog onClose={() => setAddMemberOpen(false)} onSaved={onMemberAdded} />}
     </div>
   );
 }

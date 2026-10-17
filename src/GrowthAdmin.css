@@ -536,7 +536,16 @@
 .ga-members-panel,
 .ga-payments-panel { margin-top: 5px; }
 
-.ga-members-toolbar { align-items: flex-end; }
+.ga-members-toolbar { align-items: stretch; flex-direction: column; }
+.ga-members-title-row { display: flex; align-items: center; justify-content: space-between; gap: 13px; flex-wrap: wrap; }
+.ga-member-actions { display: flex; align-items: center; gap: 7px; flex-wrap: wrap; }
+.ga-export-select { min-width: 148px; }
+.ga-export-button,
+.ga-add-member-button { display: inline-flex; min-height: 36px; align-items: center; justify-content: center; gap: 7px; padding: 0 11px; border: 1px solid #dce6ed; border-radius: 8px; background: #fff; color: #416078; font: inherit; font-size: 9px; font-weight: 800; white-space: nowrap; cursor: pointer; }
+.ga-export-button:hover { border-color: #b6d2e2; color: #0870ae; }
+.ga-export-button:disabled { opacity: 0.55; cursor: not-allowed; }
+.ga-add-member-button { border-color: #084c7b; background: linear-gradient(135deg, #075688, #073b66); color: white; }
+.ga-add-member-button:hover { background: #075688; }
 
 .ga-filters {
   display: flex;
@@ -631,6 +640,12 @@
 .ga-modal-copy { margin: 0 0 19px; color: #738596; font-size: 11px; line-height: 1.6; }
 .ga-modal-copy strong { color: #37556e; }
 .ga-modal .ga-field { margin: 13px 0; }
+.ga-modal .ga-field select { width: 100%; min-height: 42px; padding: 0 11px; border: 1px solid #dce6ed; border-radius: 8px; outline: 0; background: #fff; color: #233a4e; font: inherit; font-size: 11px; }
+.ga-modal .ga-field select:focus { border-color: #60a3c6; box-shadow: 0 0 0 3px rgba(50, 142, 187, 0.1); }
+.ga-add-member-modal { width: min(100%, 560px); max-height: calc(100vh - 36px); overflow: auto; }
+.ga-form-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 13px; }
+.ga-add-member-note { display: flex; align-items: center; gap: 8px; padding: 10px 11px; border: 1px solid #e2edf3; border-radius: 8px; background: #f7fbfd; color: #597589; font-size: 10px; line-height: 1.5; }
+.ga-add-member-note svg { flex: 0 0 auto; color: #0870ae; }
 .ga-modal-actions { display: flex; justify-content: flex-end; gap: 9px; margin-top: 20px; }
 
 .ga-primary,
@@ -708,7 +723,6 @@
 
 @media (max-width: 1100px) {
   .ga-metrics-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .ga-members-toolbar { align-items: flex-start; flex-direction: column; }
   .ga-filters { width: 100%; }
   .ga-search { width: auto; flex: 1; }
 }
@@ -747,6 +761,11 @@
   .ga-dashboard-note { align-items: flex-start; font-size: 9px; line-height: 1.5; }
   .ga-detail-grid { grid-template-columns: 1fr; gap: 12px; }
   .ga-members-toolbar { gap: 13px; }
+  .ga-members-title-row { align-items: flex-start; flex-direction: column; }
+  .ga-member-actions { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr) auto; }
+  .ga-export-select { min-width: 0; }
+  .ga-add-member-button { grid-column: 1 / -1; }
+  .ga-form-grid { grid-template-columns: 1fr; }
   .ga-desktop-table { display: none; }
   .ga-mobile-member-list,
   .ga-mobile-payment-list { display: grid; gap: 9px; padding: 12px; }
